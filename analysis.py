@@ -19,10 +19,15 @@ def calculate_return(data, symbol, start_date):
     try:
         start_price = data[symbol].loc[start_date, 'Close']
         end_date = start_date + timedelta(days=365*2)
+        
+        # If end_date is in the future, use the most recent available date
+        if end_date > data[symbol].index[-1]:
+            end_date = data[symbol].index[-1]
+        
         end_price = data[symbol].loc[end_date, 'Close']
         return (end_price - start_price) / start_price * 100
     except:
-        return None  # Handle missing data
+        return None
 
 def analyze_results(df_results):
     winners = df_results[df_results['return_2y'] > 0]
