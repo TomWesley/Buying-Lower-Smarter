@@ -12,6 +12,7 @@ def main():
     for symbol in sp500_symbols:
         stock = yf.Ticker(symbol)
         hist_data = stock.history(period="5y")
+        
         #may want to make this 'max'
         data[symbol] = hist_data
     
