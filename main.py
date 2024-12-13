@@ -4,7 +4,12 @@ from analysis import get_biggest_losers, calculate_return, analyze_results
 from datetime import timedelta
 from tqdm import tqdm
 
+
+
+
 def main():
+    #CHECK The below if things go wrong
+    
     # Step 1: Fetch S&P 500 historical data
     sp500_symbols = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]['Symbol'].tolist()
     

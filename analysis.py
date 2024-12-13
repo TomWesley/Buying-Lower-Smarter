@@ -47,10 +47,11 @@ def analyze_results(df_results):
     # Trend Analysis: Day of the Week
     df_results['day_of_week'] = df_results['date'].dt.day_name()
     day_of_week_trends = df_results.groupby('day_of_week')['return_2y'].mean()
+    
     print("Day of the Week Trends:", day_of_week_trends)
 
     # Market Performance Analysis
-    spy = yf.Ticker('SPY').history(period="10y")
+    spy = yf.Ticker('SPY').history(period="5y")
     df_results['market_return'] = spy['Close'].pct_change()
     market_trends = df_results.groupby(df_results['market_return'] > 0)['return_2y'].mean()
-    print("Market Trends:", market_trends)
+    print("SPY Perfomance During that Span:", df_results['market_return'].mean())
