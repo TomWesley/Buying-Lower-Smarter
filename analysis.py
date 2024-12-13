@@ -12,7 +12,7 @@ def get_biggest_losers(data, date):
             percentage_change = (close_price - open_price) / open_price * 100
             daily_changes[symbol] = percentage_change
     
-    losers = sorted(daily_changes, key=daily_changes.get)[:5]
+    losers = sorted(daily_changes, key=daily_changes.get)[:1]
     return losers
 
 def calculate_return(data, symbol, start_date):
