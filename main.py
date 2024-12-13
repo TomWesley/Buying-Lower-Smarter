@@ -10,11 +10,23 @@ def main():
     
     data = {}
     for symbol in sp500_symbols:
-        stock = yf.Ticker(symbol)
-        hist_data = stock.history(period="5y")
+        try:
+            stock = yf.Ticker(symbol)
+
+            # Fetch max available history for the stock
+            hist_data = stock.history(period="max")
+
+            # Limit history to the past 5 years
+            hist_data = hist_data[hist_data.index >= (hist_data.index[-1] - pd.DateOffset(years=5))]
+
+            # Store the filtered data
+            if not hist_data.empty:
+                data[symbol] = hist_data
+            else:
+                print(f"Skipping {symbol}: No data available")
         
-        #may want to make this 'max'
-        data[symbol] = hist_data
+        except Exception as e:
+            print(f"Error fetching data for {symbol}: {e}")
     
     # Step 2: Analyze each day and store the results
     results = []
