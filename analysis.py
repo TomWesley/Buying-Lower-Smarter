@@ -51,7 +51,15 @@ def analyze_results(df_results):
     print("Day of the Week Trends:", day_of_week_trends)
 
     # Market Performance Analysis
-    spy = yf.Ticker('SPY').history(period="5y")
-    df_results['market_return'] = spy['Close'].pct_change()
-    market_trends = df_results.groupby(df_results['market_return'] > 0)['return_2y'].mean()
-    print("SPY Perfomance During that Span:", df_results['market_return'].mean())
+    print("\n=== SPY Performance (Last 5 Years) ===")
+    try:
+        spy = yf.Ticker("SPY")
+        spy_data = spy.history(period="5y")
+        start_price = spy_data['Close'].iloc[0]
+        end_price = spy_data['Close'].iloc[-1]
+        spy_return = (end_price - start_price) / start_price * 100
+
+        print(f"SPY Total Return (5 years): {spy_return:.2f}%")
+        print(f"Start Price: ${start_price:.2f}, End Price: ${end_price:.2f}")
+    except Exception as e:
+        print(f"Error fetching SPY data: {e}")
