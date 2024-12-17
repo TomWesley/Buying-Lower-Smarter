@@ -2,6 +2,19 @@ import pandas as pd
 import yfinance as yf
 from datetime import timedelta
 
+from tqdm import tqdm
+from datetime import datetime
+import pytz  # Import for timezone handling
+
+# Set the precise 5-year window ending 2 years ago
+# Set the precise 5-year window ending 2 years ago
+end_date = datetime.now() - timedelta(days=365*2)
+start_date = end_date - timedelta(days=365*5)
+
+# Make both start_date and end_date timezone-aware (UTC)
+end_date = end_date.replace(tzinfo=pytz.UTC)
+start_date = start_date.replace(tzinfo=pytz.UTC)
+
 def get_biggest_losers(data, date):
     daily_changes = {}
     percentage_changes_average = 0
@@ -21,24 +34,29 @@ def get_biggest_losers(data, date):
 
 def calculate_return(data, symbol, start_date):
     try:
+        # Get the start price
         start_price = data[symbol].loc[start_date, 'Close']
-        end_date = start_date + timedelta(days=365*2)
         
-        # If end_date is in the future, use the most recent available date
-        if end_date > data[symbol].index[-1]:
-            end_date = data[symbol].index[-1]
-        
+        # Calculate end_date (2 years after start_date, capped at SPY end_date)
+        target_end_date = start_date + timedelta(days=365*2)
+        max_end_date = data[symbol].index[-1]  # Last available date in the dataset
+        end_date = min(target_end_date, max_end_date)
+
+        # Get the end price
         end_price = data[symbol].loc[end_date, 'Close']
+        
+        # Calculate return
         return (end_price - start_price) / start_price * 100
     except:
-        return None
+        return None  # Handle missing or invalid data
 
 def analyze_results(df_results):
     winners = df_results[df_results['return_2y'] > 0]
     winning_percentage = len(winners) / len(df_results) * 100
     average_return_of_winners = winners['return_2y'].mean()
     average_return_overall = df_results['return_2y'].mean()
-
+    print("Start Date:", start_date )
+    print("End Date:", end_date )
     print(f"Winning Percentage: {winning_percentage:.2f}%")
     print(f"Average Return of Winners: {average_return_of_winners:.2f}%")
     print(f"Average Return Overall: {average_return_overall:.2f}%")
