@@ -59,7 +59,7 @@ def main():
     
     # Step 3: Analyze results
     df_results = pd.DataFrame(results)
-    analyze_results(df_results)
+    analyze_results(df_results, start_date, end_date)
 
 if __name__ == "__main__":
     main()
