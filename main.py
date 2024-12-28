@@ -8,8 +8,8 @@ import pytz  # Import for timezone handling
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*2)
-start_date = end_date - timedelta(days=365*5)
+end_date = datetime.now() - timedelta(days=365*7)
+start_date = end_date - timedelta(days=365*20)
 
 # Make both start_date and end_date timezone-aware (UTC)
 end_date = end_date.replace(tzinfo=pytz.UTC)
@@ -59,7 +59,7 @@ def main():
     
     # Step 3: Analyze results
     df_results = pd.DataFrame(results)
-    analyze_results(df_results)
+    analyze_results(df_results, start_date, end_date)
 
 if __name__ == "__main__":
     main()
