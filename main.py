@@ -8,8 +8,8 @@ import pytz  # Import for timezone handling
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*7)
-start_date = end_date - timedelta(days=365*20)
+end_date = datetime.now() - timedelta(days=365*2)
+start_date = end_date - timedelta(days=365*5)
 
 # Make both start_date and end_date timezone-aware (UTC)
 end_date = end_date.replace(tzinfo=pytz.UTC)
@@ -18,11 +18,10 @@ start_date = start_date.replace(tzinfo=pytz.UTC)
 
 
 def main():
-    #CHECK The below if things go wrong
     
-    # Step 1: Fetch S&P 500 historical data
-    sp500_symbols = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]['Symbol'].tolist()
-    
+    #May need the link to the current symbols for the daily listener. 
+    #sp500_symbols = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]['Symbol'].tolist()
+    sp500_symbols = pd.read_csv('FinalTickers.csv', header=None).squeeze().tolist()
     data = {}
     for symbol in sp500_symbols:
         try:
@@ -35,18 +34,18 @@ def main():
             if not hist_data.empty:
                 data[symbol] = hist_data
             else:
-                print(f"Skipping {symbol}: No data available in 5-year window")
+                print(f"Skipping {symbol}: No data available in time window")
         except Exception as e:
             print(f"Error fetching data for {symbol}: {e}")
     
     # Step 2: Analyze each day and store the results
     results = []
     # Ensure we analyze dates within the 5-year window
-    analysis_start_date = max(start_date, data['AAPL'].index[0])  # Use AAPL or another reliable stock
-    analysis_dates = data['AAPL'].loc[analysis_start_date:].index
+    # analysis_start_date = max(start_date, data['AAPL'].index[0])  # Use AAPL or another reliable stock
+    # analysis_dates = data['AAPL'].loc[analysis_start_date:].index
+    analysis_dates = pd.date_range(start=start_date, end=end_date, freq='D')  # 'D' for daily, change if needed
 
     for date in tqdm(analysis_dates):
- # Assuming 'AAPL' has data for all days
         losers = get_biggest_losers(data, date)
         for loser in losers:
             return_2y = calculate_return(data, loser, date)
