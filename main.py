@@ -5,6 +5,7 @@ from datetime import timedelta
 from tqdm import tqdm
 from datetime import datetime
 import pytz  # Import for timezone handling
+from gsheets_helper import upload_df_to_sheets
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
@@ -59,6 +60,12 @@ def main():
     # Step 3: Analyze results
     df_results = pd.DataFrame(results)
     analyze_results(df_results, start_date, end_date)
+
+    upload_df_to_sheets(
+    df_results, 
+    sheet_name="Biggest Loser Results",
+    creds_file=r"C:\Users\ioana\projects\bigloserkey\service_account_key.json"
+)
 
 if __name__ == "__main__":
     main()
