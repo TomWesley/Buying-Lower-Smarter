@@ -9,8 +9,6 @@ import pytz  # Import for timezone handling
 
 def get_biggest_losers(data, date):
     daily_changes = {}
-    percentage_changes_average = 0
-    counter = 0
     for symbol, df in data.items():
         if date in df.index:
             close_price = df.loc[date, 'Close']
@@ -18,8 +16,7 @@ def get_biggest_losers(data, date):
             percentage_change = (close_price - open_price) / open_price * 100
             daily_changes[symbol] = percentage_change
             percentage_changes_average = percentage_changes_average + percentage_change
-            counter = counter + 1
-    percentage_changes_average = percentage_changes_average/counter
+            
     # print(f"Average Loss Of Biggest Loser On Day of Theoretical Purchase: {percentage_changes_average:.2f}%")
     losers = sorted(daily_changes, key=daily_changes.get)[:1]
     return losers
