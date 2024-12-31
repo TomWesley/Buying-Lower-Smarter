@@ -9,7 +9,7 @@ import pytz  # Import for timezone handling
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
 end_date = datetime.now() - timedelta(days=365*2)
-start_date = end_date - timedelta(days=365*1)
+start_date = end_date - timedelta(days=365*5)
 
 # Make both start_date and end_date timezone-aware (UTC)
 ny_tz = pytz.timezone('America/New_York')
@@ -29,15 +29,13 @@ def main():
     for symbol in sp500_symbols:
         try:
             stock = yf.Ticker(symbol)
-            print("CHECKER")
-            print(start_date)
             # Fetch historical data within the specific 5-year window
             hist_data = stock.history(start=start_date, end=end_date)
             
             # Store the filtered data
             if not hist_data.empty:
                 data[symbol] = hist_data
-                print(f"Running {symbol}: data IS available in time window")
+                #print(f"Running {symbol}: data IS available in time window")
             else:
                 x = 0
                 # print(f"Skipping {symbol}: No data available in time window")
