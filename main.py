@@ -24,7 +24,7 @@ def main():
     
     #May need the link to the current symbols for the daily listener. 
     #sp500_symbols = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]['Symbol'].tolist()
-    sp500_symbols = pd.read_csv('TestTickers.csv', header=None).squeeze().tolist()
+    sp500_symbols = pd.read_csv('FinalTickers.csv', header=None).squeeze().tolist()
     data = {}
     for symbol in sp500_symbols:
         try:

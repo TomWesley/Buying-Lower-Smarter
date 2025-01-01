@@ -59,6 +59,7 @@ def analyze_results(df_results, sd, ed):
 
     # Market Performance Analysis
     print("\n=== SPY Rolling 2-Year Returns ===")
+    ## As of now SPY working is dependent on 
     try:
         spy = yf.Ticker("SPY")
         spy_data = spy.history(start=sd, end=ed)  # Use the same fixed 5-year window
