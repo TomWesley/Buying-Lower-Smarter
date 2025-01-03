@@ -93,6 +93,10 @@ def main():
     # Convert 'date' column to a standard YYYY-MM-DD string format
     df_results['date'] = df_results['date'].dt.strftime('%Y-%m-%d')
 
+    # Add start and end dates as new columns (convert them to strings if they're datetime objects)
+    df_results['analysis_start_date'] = start_date.strftime('%Y-%m-%d')
+    df_results['analysis_end_date']   = end_date.strftime('%Y-%m-%d')
+
     upload_df_to_sheets(
     df_results, 
     sheet_name="Biggest Loser Results",

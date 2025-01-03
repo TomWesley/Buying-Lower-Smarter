@@ -2,7 +2,7 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-def upload_df_to_sheets(df, sheet_name, creds_file, worksheet_name='Sheet1'):
+def upload_df_to_sheets(df, sheet_name, creds_file, worksheet_name='Export_sheet'):
     # 1) Set the scopes
     scopes = [
         'https://www.googleapis.com/auth/spreadsheets',
