@@ -8,7 +8,7 @@ import pytz  # Import for timezone handling
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*2)
+end_date = datetime.now() - timedelta(days=365*0)
 start_date = end_date - timedelta(days=365*5)
 
 # Make both start_date and end_date timezone-aware (UTC)
@@ -24,7 +24,7 @@ def main():
     
     #May need the link to the current symbols for the daily listener. 
     #sp500_symbols = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]['Symbol'].tolist()
-    sp500_symbols = pd.read_csv('FinalTickers.csv', header=None).squeeze().tolist()
+    sp500_symbols = pd.read_csv('tester.csv', header=None).squeeze().tolist()
     data = {}
     for symbol in sp500_symbols:
         try:
@@ -37,8 +37,7 @@ def main():
                 data[symbol] = hist_data
                 #print(f"Running {symbol}: data IS available in time window")
             else:
-                x = 0
-                # print(f"Skipping {symbol}: No data available in time window")
+                print(f"Skipping {symbol}: No data available in time window")
         except Exception as e:
             # print(f"Error fetching data for {symbol}: {e}")
             y =0
