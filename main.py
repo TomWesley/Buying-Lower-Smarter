@@ -8,7 +8,7 @@ import pytz  # Import for timezone handling
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*12)
+end_date = datetime.now() - timedelta(days=365*2)
 start_date = end_date - timedelta(days=365*5)
 
 # Make both start_date and end_date timezone-aware (UTC)

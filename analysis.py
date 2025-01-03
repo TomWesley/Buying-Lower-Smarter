@@ -62,7 +62,7 @@ def analyze_results(df_results, sd, ed):
     ## As of now SPY working is dependent on 
     try:
         spy = yf.Ticker("SPY")
-        spy_data = spy.history(start=sd, end=ed)  # Use the same fixed 5-year window
+        spy_data = spy.history(start=sd, end=ed)  # Use the same time window
         spy_data['2y_return'] = None  # Initialize column
 
         # Calculate 2-year returns for each day
