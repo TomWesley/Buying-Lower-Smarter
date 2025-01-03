@@ -26,17 +26,26 @@ def calculate_return(data, symbol, start_date):
         # Get the start price
         start_price = data[symbol].loc[start_date, 'Close']
         
-        # Calculate end_date (2 years after start_date, capped at SPY end_date)
+        # Calculate target end date (2 years after start_date)
         target_end_date = start_date + timedelta(days=365*2)
+        
+        # Ensure the target end date is within the available data range
         max_end_date = data[symbol].index[-1]  # Last available date in the dataset
-        end_date = min(target_end_date, max_end_date)
-
+        target_end_date = min(target_end_date, max_end_date)
+        
+        # Find the nearest valid trading day
+        valid_dates = data[symbol].index
+        if target_end_date not in valid_dates:
+            # Use the closest trading day (before the target date)
+            target_end_date = valid_dates[valid_dates.get_indexer([target_end_date], method='nearest')[0]]
+        
         # Get the end price
-        end_price = data[symbol].loc[end_date, 'Close']
+        end_price = data[symbol].loc[target_end_date, 'Close']
         
         # Calculate return
         return (end_price - start_price) / start_price * 100
-    except:
+    except Exception as e:
+        print(f"Error for {symbol} on {start_date}: {e}")
         return None  # Handle missing or invalid data
 
 def analyze_results(df_results, sd, ed):
