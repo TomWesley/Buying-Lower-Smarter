@@ -90,10 +90,14 @@ def main():
     df_results = pd.DataFrame(results)
     analyze_results(df_results, start_date, end_date)
 
+    # Convert 'date' column to a standard YYYY-MM-DD string format
+    df_results['date'] = df_results['date'].dt.strftime('%Y-%m-%d')
+
     upload_df_to_sheets(
     df_results, 
     sheet_name="Biggest Loser Results",
-    creds_file=r"C:\Users\ioana\projects\bigloserkey\service_account_key.json"
+    creds_file=r"C:\Users\ioana\projects\bigloserkey\stock-analysis-sheets-export-b83325cfadb5.json"
+    
 )
 
 if __name__ == "__main__":
