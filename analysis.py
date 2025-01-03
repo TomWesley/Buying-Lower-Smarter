@@ -15,7 +15,7 @@ def get_biggest_losers(data, date):
             open_price = df.loc[date, 'Open']
             percentage_change = (close_price - open_price) / open_price * 100
             daily_changes[symbol] = percentage_change
-            percentage_changes_average = percentage_changes_average + percentage_change
+            
             
     # print(f"Average Loss Of Biggest Loser On Day of Theoretical Purchase: {percentage_changes_average:.2f}%")
     losers = sorted(daily_changes, key=daily_changes.get)[:1]
@@ -59,6 +59,7 @@ def analyze_results(df_results, sd, ed):
 
     # Market Performance Analysis
     print("\n=== SPY Rolling 2-Year Returns ===")
+    ## As of now SPY working is dependent on 
     try:
         spy = yf.Ticker("SPY")
         spy_data = spy.history(start=sd, end=ed)  # Use the same fixed 5-year window
