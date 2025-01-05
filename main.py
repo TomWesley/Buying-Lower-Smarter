@@ -41,7 +41,10 @@ def main():
                 print(f"Skipping {symbol}: No data available in time window")
         except Exception as e:
             print(f"Error fetching data for {symbol}: {e}")
-           
+
+    # get SPY data for the same window
+    spy = yf.Ticker("SPY")
+    spy_data = spy.history(start=start_date, end=end_date)      
 
     # Step 2: Analyze each day and store the results
     results = []
@@ -76,14 +79,29 @@ def main():
         #             print(f"Skipping {symbol}: No data available in time window")
         #     except Exception as e:
         #         print(f"Error fetching data for {symbol}: {e}")
+
+        spy_daily_change = None
+        if date in spy_data.index:
+            spy_open  = spy_data.loc[date, 'Open']
+            spy_close = spy_data.loc[date, 'Close']
+            spy_daily_change = (spy_close - spy_open) / spy_open * 100
+
+
         losers = get_biggest_losers(data, date)
         for loser in losers:
             return_2y = calculate_return(data, loser, date)
             if return_2y is not None:
+                #loser daily change
+                loser_open  = data[loser].loc[date, 'Open']
+                loser_close = data[loser].loc[date, 'Close']
+                loser_daily_change = (loser_close - loser_open) / loser_open * 100
+
                 results.append({
                     'date': date,
                     'loser': loser,
-                    'return_2y': return_2y
+                    'loser_daily_change': loser_daily_change,
+                    'return_2y': return_2y,
+                    'spy_daily_change': spy_daily_change
                 })
     
     # Step 3: Analyze results
@@ -93,7 +111,7 @@ def main():
     # Convert 'date' column to a standard YYYY-MM-DD string format
     df_results['date'] = df_results['date'].dt.strftime('%Y-%m-%d')
 
-    # Add start and end dates as new columns (convert them to strings if they're datetime objects)
+    # Add start and end dates as new columns
     df_results['analysis_start_date'] = start_date.strftime('%Y-%m-%d')
     df_results['analysis_end_date']   = end_date.strftime('%Y-%m-%d')
 
