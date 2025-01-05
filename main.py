@@ -75,9 +75,9 @@ def main():
         #             print(f"Skipping {symbol}: No data available in time window")
         #     except Exception as e:
         #         print(f"Error fetching data for {symbol}: {e}")
-        losers = get_biggest_losers(data, date)
+        losers, changePercentage = get_biggest_losers(data, date)
         for loser in losers:
-            return_2y = calculate_return(data, loser, date)
+            return_2y = calculate_return(data, loser, date, changePercentage)
             if return_2y is not None:
                 results.append({
                     'date': date,

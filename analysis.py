@@ -5,10 +5,47 @@ from datetime import timedelta
 from tqdm import tqdm
 from datetime import datetime
 import pytz  # Import for timezone handling
+import openai
+
+openai.api_key = "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"
+
+def validate_ticker_with_ai(ticker):
+    try:
+        # Prompt for generative AI
+        prompt = f"""
+            Provide a quick analysis for the stock ticker {ticker}. I need you to use the following weights and simply output a number between 0 and 100 according to the following: 
+            30% - Industry : Is it a technology company(yes/no)
+            10% - Growth vs. Blue Chip : Is it a growth oriented company or blue-chip heavy(yes/no)
+            30% - Dividends : Is the dividend yield less than 1%(yes/no)
+            15% - REIT : Is it not an REIT stock(yes/no)
+            15% - Founded date : Was the company founded before 1998(yes, no)
+
+            Answer 'yes' or 'no' for each question and then add the percentages up, counting the number for each yes, output just the number.
+            """
+        
+        # Make a ChatCompletion API call
+        response = openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a financial data analyst."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+
+        # Access the result properly
+        result = response.choices[0].message.content
+
+        return result
+    
+    except Exception as e:
+        print(f"Error checking criteria for {ticker}: {e}")
+        return None
+
 
 
 def get_biggest_losers(data, date):
     daily_changes = {}
+    percentage_change = 0
     for symbol, df in data.items():
         if date in df.index:
             close_price = df.loc[date, 'Close']
@@ -19,12 +56,20 @@ def get_biggest_losers(data, date):
             
     # print(f"Average Loss Of Biggest Loser On Day of Theoretical Purchase: {percentage_changes_average:.2f}%")
     losers = sorted(daily_changes, key=daily_changes.get)[:1]
-    return losers
 
-def calculate_return(data, symbol, start_date):
+    return losers, percentage_change
+
+def calculate_return(data, symbol, start_date, pc):
     try:
+        # Generative AI Section
+        
         # Get the start price
+        print(symbol)
+        print("PERCENTAGE CHANGE FOR THE STOCK WAS")
+        # print(pc)
+
         start_price = data[symbol].loc[start_date, 'Close']
+        
         
         # Calculate target end date (2 years after start_date)
         target_end_date = start_date + timedelta(days=365*2)
@@ -49,6 +94,8 @@ def calculate_return(data, symbol, start_date):
         return None  # Handle missing or invalid data
 
 def analyze_results(df_results, sd, ed):
+    # validation_result = validate_ticker_with_ai('XOM')
+    # print(validation_result)
     winners = df_results[df_results['return_2y'] > 0]
     winning_percentage = len(winners) / len(df_results) * 100
     average_return_of_winners = winners['return_2y'].mean()
