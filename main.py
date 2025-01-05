@@ -80,6 +80,7 @@ def main():
         #     except Exception as e:
         #         print(f"Error fetching data for {symbol}: {e}")
 
+
         spy_daily_change = None
         if date in spy_data.index:
             spy_open  = spy_data.loc[date, 'Open']
@@ -87,9 +88,11 @@ def main():
             spy_daily_change = (spy_close - spy_open) / spy_open * 100
 
 
-        losers = get_biggest_losers(data, date)
+
+        losers, changePercentage = get_biggest_losers(data, date)
+
         for loser in losers:
-            return_2y = calculate_return(data, loser, date)
+            return_2y = calculate_return(data, loser, date, changePercentage)
             if return_2y is not None:
                 #loser daily change
                 loser_open  = data[loser].loc[date, 'Open']
