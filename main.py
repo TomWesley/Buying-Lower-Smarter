@@ -9,8 +9,9 @@ from gsheets_helper import upload_df_to_sheets
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*2)
+end_date = datetime.now() - timedelta(days=365*6)
 start_date = end_date - timedelta(days=365*5)
+
 
 # Make both start_date and end_date timezone-aware (UTC)
 ny_tz = pytz.timezone('America/New_York')
@@ -121,7 +122,7 @@ def main():
     upload_df_to_sheets(
     df_results, 
     sheet_name="Biggest Loser Results",
-    creds_file=r"C:\Users\ioana\projects\bigloserkey\stock-analysis-sheets-export-b83325cfadb5.json"
+    creds_file=r"/Users/tomwesley/LocalGithubFiles/StockAnalysisBiggestLosers/stock-analysis-sheets-export-b83325cfadb5.json"
     
 )
 

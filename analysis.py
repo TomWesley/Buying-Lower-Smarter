@@ -7,20 +7,22 @@ from datetime import datetime
 import pytz  # Import for timezone handling
 import openai
 
-openai.api_key = "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"
-
-def validate_ticker_with_ai(ticker):
+openai.api_key = ""
+def validate_ticker_with_ai(ticker, rank):
     try:
         # Prompt for generative AI
         prompt = f"""
             Provide a quick analysis for the stock ticker {ticker}. I need you to use the following weights and simply output a number between 0 and 100 according to the following: 
-            30% - Industry : Is it a technology company(yes/no)
-            10% - Growth vs. Blue Chip : Is it a growth oriented company or blue-chip heavy(yes/no)
-            30% - Dividends : Is the dividend yield less than 1%(yes/no)
+            20% - Industry : Is it a technology or innovative healthcare company (yes if either, no otherwise)
+            5% - International Presence: Does the company have significant international revenue?(yes/no
+            15% - Growth vs. Blue Chip : Is it a growth oriented company or more blue-chip traditional (yes/no)
+            20% - Dividends : Is the dividend yield less than 1%(yes/no)
             15% - REIT : Is it not an REIT stock(yes/no)
-            15% - Founded date : Was the company founded before 1998(yes, no)
+            15% - Severity of loss, did the stock lose more than 5% on the day(yes/no)(bigger loss is better indicator to buy)
+            10% - Where did it rank in the biggest loser of the day hierarchy, as denoted by the {rank} variable: closest to biggest loser is better, 10% for biggest loser, 8% for second biggest, 6% for third biggest, 4% for fourth biggest, 2% for 5th biggest. 
 
-            Answer 'yes' or 'no' for each question and then add the percentages up, counting the number for each yes, output just the number.
+
+            Answer 'yes' or 'no' for each question and then add the percentages up, counting the number for each yes, output just the number as a confidence value out of 100. 
             """
         
         # Make a ChatCompletion API call
@@ -55,18 +57,21 @@ def get_biggest_losers(data, date):
             
             
     # print(f"Average Loss Of Biggest Loser On Day of Theoretical Purchase: {percentage_changes_average:.2f}%")
-    losers = sorted(daily_changes, key=daily_changes.get)[:1]
-
+    losers = sorted(daily_changes, key=daily_changes.get)[:5]
+    #AI SECTION
+    # rank = 1
+    # for loser in losers:
+    #     validation_result = validate_ticker_with_ai(loser, rank)
+    #     rank = rank + 1
+    #     print(loser)
+    #     print(validation_result)
     return losers, percentage_change
 
 def calculate_return(data, symbol, start_date, pc):
     try:
-        # Generative AI Section
+    
         
         # Get the start price
-        print(symbol)
-        print("PERCENTAGE CHANGE FOR THE STOCK WAS")
-        # print(pc)
 
         start_price = data[symbol].loc[start_date, 'Close']
         
@@ -94,8 +99,8 @@ def calculate_return(data, symbol, start_date, pc):
         return None  # Handle missing or invalid data
 
 def analyze_results(df_results, sd, ed):
-    # validation_result = validate_ticker_with_ai('XOM')
-    # print(validation_result)
+    # 
+    # 
     winners = df_results[df_results['return_2y'] > 0]
     winning_percentage = len(winners) / len(df_results) * 100
     average_return_of_winners = winners['return_2y'].mean()
