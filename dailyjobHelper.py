@@ -20,6 +20,10 @@ class TicketResolution(BaseModel):
     # final_resolution: str = Field(
     #     description="The final message that will be send to the customer."
     # )
+
+
+    #industry: str = Field(description="Industry Conclusion and What Percentage Was Awarded")
+    components: str = Field(description="All of the components of the confidence score as numbers prior to summation.")
     confidence: float = Field(description="Confidence Score based on the Analysis (0-100)")
 
 
@@ -27,7 +31,7 @@ def get_ticket_response_pydantic(ticker, rank, sol):
     query = f"""
             Provide a quick analysis for the company with the stock ticker: {ticker}. Follow these **exact rules** to calculate a confidence score (0–100) based on weighted criteria. **Output only the final number.**
 
-            1. **Industry (20%)**: Is it a technology or innovative healthcare company?  
+            1. **Industry (20%)**: Is it either a technology or innovative healthcare company?  
             - Assign 20% if "Yes"; 0% otherwise.
 
             2. **International Presence (5%)**: Does the company have significant international revenue?  
@@ -36,21 +40,21 @@ def get_ticket_response_pydantic(ticker, rank, sol):
             3. **Growth vs. Blue Chip (15%)**: Is it a growth-oriented company rather than a blue-chip traditional one?  
             - Assign 15% if "Yes"; 0% otherwise.
 
-            4. **Dividends (20%)**: Is the dividend yield less than 1%?  
+            4. **Dividends (20%)**: Is the dividend yield of the stock less than 1%?  
             - Assign 20% if "Yes"; 0% otherwise.
 
-            5. **REIT (15%)**: Is it not an REIT stock?  
-            - Assign 15% if "Yes"; 0% otherwise.
+            5. **REIT (15%)**: Is the stock a Real Estate Investment Trust?  
+            - Assign 15% if "No"; 0% otherwise.
 
-            6. **Severity of Loss (15%)**: Based on {sol}, did the stock lose more than 5% on the day?  
-            - Assign 15% if "Yes"; 0% otherwise.
+            6. **Severity of Loss (15%)**: Based on the percentage loss `{sol}`, did the stock lose more than 5% on the day?  
+            - Assign 15% if the absolute value of `{sol}` is greater than 5%; 0% otherwise.
 
             7. **Ranking Among Biggest Losers (10%)**: Based on the {rank} variable:
-            - Assign 10% if it is the biggest loser.
-            - Assign 8% if it is the 2nd biggest loser.
-            - Assign 6% if it is the 3rd biggest loser.
-            - Assign 4% if it is the 4th biggest loser.
-            - Assign 2% if it is the 5th biggest loser.
+            - Assign 10% if the rank is 1.
+            - Assign 8% if the rank is 2.
+            - Assign 6% if the rank is 3.
+            - Assign 4% if the rank is 4.
+            - Assign 2% if the rank is 5.
 
             ---
 
@@ -58,8 +62,6 @@ def get_ticket_response_pydantic(ticker, rank, sol):
             1. Evaluate each criterion above and calculate its percentage contribution.
             2. Add all contributions to produce a total confidence score (0–100).
             3. Output **only the final number** (e.g., "85").
-
-            ---
             """
 
     system_prompt = """
@@ -90,11 +92,12 @@ def get_biggest_losers(data, date):
     # print(f"Average Loss Of Biggest Loser On Day of Theoretical Purchase: {percentage_changes_average:.2f}%")
     losers = sorted(daily_changes, key=daily_changes.get)[:5]
     #AI SECTION
+    print(losers)
     rank = 1
     for loser in losers:
         response_pydantic = get_ticket_response_pydantic(loser, rank, daily_changes[loser])
         print(loser)
-        print(daily_changes[loser])
+        # print(daily_changes[loser])
         print(response_pydantic.model_dump())
         
         # validation_result = validate_ticker_with_ai(loser, rank)
