@@ -5,7 +5,78 @@ from datetime import timedelta
 from tqdm import tqdm
 from datetime import datetime
 import pytz  # Import for timezone handling
+import openai
+from pydantic import BaseModel, Field
+from yahooquery import Ticker
 
+
+
+from yahooquery import Ticker
+
+def calculate_confidence_score(ticker: str, percentage_change: float, ranking: int) -> float:
+    """
+    Calculate a confidence score for a stock based on various factors.
+    
+    Parameters:
+        ticker (str): The stock ticker.
+        percentage_change (float): The percentage change of the stock's price.
+        ranking (int): The rank of the stock in the biggest loser list (1 for biggest loser, etc.).
+    
+    Returns:
+        float: The confidence score between 0 and 100.
+    """
+    try:
+        # Fetch data from Yahoo Finance
+        stock = Ticker(ticker)
+        summary = stock.summary_detail.get(ticker, {})
+        asset_profile = stock.asset_profile.get(ticker, {})
+        
+        # Extract data
+        industry = asset_profile.get("industry", "").lower()
+        dividend_yield = summary.get("dividendYield", 0) * 100  # Convert to percentage
+        year_founded = asset_profile.get("fullTimeEmployees", None)  # Approximation: Yahoo may not provide year
+        
+        # Define weights
+        weights = {
+            "industry": 20,
+            "growth_vs_blue_chip": 20,
+            "dividends": 20,
+            "reit": 15,
+            "severity_of_loss": 15,
+            "ranking": 10,
+        }
+        
+        # Calculate score components
+        score = 0
+
+        # Industry: Is it a technology or innovative healthcare company?
+        if "technology" in industry or "healthcare" in industry:
+            score += weights["growth_vs_blue_chip"]
+
+        if year_founded > 2004:
+            score += weights["industry"]
+        # Dividend Yield: Is the dividend yield less than 1%?
+        if dividend_yield < 1:
+            score += weights["dividends"]
+
+        # REIT: Is it not a REIT stock?
+        if "reit" not in industry:
+            score += weights["reit"]
+
+        # Severity of Loss: Did the stock lose more than 5%?
+        if percentage_change < -5:  # Assuming percentage_change is negative for losses
+            score += weights["severity_of_loss"]
+
+        # Ranking: Based on position in biggest loser hierarchy
+        ranking_score = max(10 - (ranking - 1) * 2, 0)  # 10% for #1, 8% for #2, etc.
+        score += ranking_score
+
+        # Return the confidence score
+        return score
+    
+    except Exception as e:
+        print(f"Error calculating confidence score for {ticker}: {e}")
+        return 0.0
 
 def get_biggest_losers(data, date):
     daily_changes = {}
@@ -21,11 +92,17 @@ def get_biggest_losers(data, date):
     # print(f"Average Loss Of Biggest Loser On Day of Theoretical Purchase: {percentage_changes_average:.2f}%")
     losers = sorted(daily_changes, key=daily_changes.get)[:5]
     #AI SECTION
-    # rank = 1
-    # for loser in losers:
-    #     rank = rank + 1
-    #     print(loser)
-    #     print(validation_result)
+    print(losers)
+    rank = 1
+    for loser in losers:
+        print(loser)
+        # print(daily_changes[loser])
+        confidence_score = calculate_confidence_score(loser, daily_changes[loser], rank)
+        print(f"Confidence score for {loser}: {confidence_score}")
+        
+        
+        rank = rank + 1
+        
     return losers, percentage_change
 
 def calculate_return(data, symbol, start_date, pc):

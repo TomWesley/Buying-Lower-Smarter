@@ -1,6 +1,8 @@
 import yfinance as yf
 import pandas as pd
-from dailyjobHelper import get_biggest_losers, calculate_return, analyze_results
+#from dailyjobHelperAI import get_biggest_losers, calculate_return, analyze_results
+from dailyjobHelperMain import get_biggest_losers, calculate_return, analyze_results
+
 from datetime import timedelta
 from tqdm import tqdm
 from datetime import datetime
