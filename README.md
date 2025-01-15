@@ -4,19 +4,26 @@
 This repository is designed to:
 
 Identify the biggest losing stocks on a given day (primarily focusing on the S&P 500).
+
 Calculate and record the stocks’ 2-year returns from each losing day.
+
 Compare these returns to the market benchmark (e.g., SPY).
+
 Upload these results to Google Sheets for easy viewing, collaboration and further analysis.
+
 Additionally, there are helper scripts to clean CSV data and compute confidence scores using either an AI-based approach (dailyjobHelperAI.py) or a rules-based approach (dailyjobHelperMain.py).
 
 ## Project Architecture
 Below is a high-level overview of how the pieces fit together:
 
 **Data Acquisition:** Scripts use yfinance (and in some cases yahooquery) to fetch stock data for a given date range.
+
 **Identification of Biggest Losers:** Logic in analysis.py, dailyjobHelperAI.py, or dailyjobHelperMain.py determines which stocks had the largest daily losses.
+
 **Confidence Scoring:**
 dailyjobHelperAI.py (uses OpenAI to produce a confidence score via GPT calls).
 dailyjobHelperMain.py (uses a custom set of rules and Yahoo Finance data).
+
 **2-Year Return Calculation:** Calculating a forward 2-year return for each of these biggest losing stocks.
 Reporting & Analysis:
 Summaries (winning percentage, average returns, day-of-week trends, etc.).
@@ -25,15 +32,20 @@ Data optionally uploaded to Google Sheets via gsheets_helper.py.
 CSV Management: csvCleaner.py can sanitize and clean CSV files of tickers or any other list-based CSV.
 File Overview
 1. analysis.py
-Core file for:
 
-get_biggest_losers(data, date): Finds top 5 daily losers for a specified date using Open-High-Low-Close data in a data dictionary.
-calculate_return(data, symbol, start_date, pc): Calculates the 2-year return (future performance) of a stock starting from start_date.
-analyze_results(df_results, sd, ed): Produces aggregated results (winning percentage, average return, day-of-week trends, and SPY rolling 2-year comparison).
-Key Points:
+    Core file for:
 
-Uses yfinance for stock data (passed in from another script).
-The function analyze_results also tries to fetch SPY data for a quick 2-year rolling calculation.
+        get_biggest_losers(data, date): Finds top 5 daily losers for a specified date using Open-High-Low-Close data in a data dictionary.
+        
+        calculate_return(data, symbol, start_date, pc): Calculates the 2-year return (future performance) of a stock starting from start_date.
+
+        analyze_results(df_results, sd, ed): Produces aggregated results (winning percentage, average return, day-of-week trends, and SPY rolling 2-year comparison).
+
+    Key Points:
+
+    Uses yfinance for stock data (passed in from another script).
+    
+    The function analyze_results also tries to fetch SPY data for a quick 2-year rolling calculation.
 
 2. csvCleaner.py
 A utility script to clean a CSV file by removing:
