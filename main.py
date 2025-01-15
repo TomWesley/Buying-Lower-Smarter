@@ -122,7 +122,7 @@ def main():
     upload_df_to_sheets(
     df_results, 
     sheet_name="Biggest Loser Results",
-    creds_file=r"/Users/tomwesley/LocalGithubFiles/StockAnalysisBiggestLosers/stock-analysis-sheets-export-b83325cfadb5.json"
+    creds_file=r"C:\Users\ioana\projects\bigloserkey\stock-analysis-sheets-export-b83325cfadb5.json"
     
 )
 
