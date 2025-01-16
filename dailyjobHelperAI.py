@@ -12,15 +12,7 @@ from pydantic import BaseModel, Field
 openai.api_key = ""
 
 class TicketResolution(BaseModel):
-    # class Step(BaseModel):
-    #     description: str = Field(description="Description of the step taken.")
-    #     action: str = Field(description="Action taken to resolve the issue.")
-
-    # steps: list[Step]
-    # final_resolution: str = Field(
-    #     description="The final message that will be send to the customer."
-    # )
-
+    
 
     #industry: str = Field(description="Industry Conclusion and What Percentage Was Awarded")
     components: str = Field(description="All of the components of the confidence score as numbers prior to summation.")

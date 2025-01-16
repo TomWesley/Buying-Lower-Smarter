@@ -9,8 +9,8 @@ from gsheets_helper import upload_df_to_sheets
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*6)
-start_date = end_date - timedelta(days=365*5)
+end_date = datetime.now() - timedelta(days=365*20)
+start_date = end_date - timedelta(days=365)
 
 
 # Make both start_date and end_date timezone-aware (UTC)
@@ -61,25 +61,9 @@ def main():
 
 # Ensure frequency is set to None (by converting to a list and back to DatetimeIndex)
     analysis_dates = pd.DatetimeIndex(analysis_dates.tolist(), name="Date")
-
+    
     # Loop over the analysis dates
     for date in analysis_dates:
-        # data = {}
-        # hist_data = None
-        # for symbol in sp500_symbols:
-        #     try:
-        #         stock = yf.Ticker(symbol)
-        #         temp_end_date = date + timedelta(days=365*2)
-        #         # Fetch historical data within the specific 5-year window
-        #         hist_data = stock.history(start=date, end=temp_end_date)
-                
-        #         # Store the filtered data
-        #         if not hist_data.empty:
-        #             data[symbol] = hist_data
-        #         else:
-        #             print(f"Skipping {symbol}: No data available in time window")
-        #     except Exception as e:
-        #         print(f"Error fetching data for {symbol}: {e}")
 
 
         spy_daily_change = None
@@ -119,12 +103,12 @@ def main():
     df_results['analysis_start_date'] = start_date.strftime('%Y-%m-%d')
     df_results['analysis_end_date']   = end_date.strftime('%Y-%m-%d')
 
-    upload_df_to_sheets(
-    df_results, 
-    sheet_name="Biggest Loser Results",
-    creds_file=r"/Users/tomwesley/LocalGithubFiles/StockAnalysisBiggestLosers/stock-analysis-sheets-export-b83325cfadb5.json"
+#     upload_df_to_sheets(
+#     df_results, 
+#     sheet_name="Biggest Loser Results",
+#     creds_file=r"/Users/tomwesley/LocalGithubFiles/StockAnalysisBiggestLosers/stock-analysis-sheets-export-b83325cfadb5.json"
     
-)
+# )
 
 if __name__ == "__main__":
     main()

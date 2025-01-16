@@ -27,22 +27,22 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
     """
     try:
         # Fetch data from Yahoo Finance
-        stock = Ticker(ticker)
+        stock = Ticker(ticker, asynchronous=True, timeout=10)
         summary = stock.summary_detail.get(ticker, {})
         asset_profile = stock.asset_profile.get(ticker, {})
+        key_stats = stock.key_stats
         
         # Extract data
         industry = asset_profile.get("industry", "").lower()
         dividend_yield = summary.get("dividendYield", 0) * 100  # Convert to percentage
-        year_founded = asset_profile.get("fullTimeEmployees", None)  # Approximation: Yahoo may not provide year
-        
+        ipo_year = key_stats[ticker].get('ipoYear')        
         # Define weights
         weights = {
             "industry": 20,
-            "growth_vs_blue_chip": 20,
+            "growth_vs_blue_chip": 15,
             "dividends": 20,
             "reit": 15,
-            "severity_of_loss": 15,
+            "severity_of_loss": 20,
             "ranking": 10,
         }
         
@@ -51,10 +51,10 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
 
         # Industry: Is it a technology or innovative healthcare company?
         if "technology" in industry or "healthcare" in industry:
-            score += weights["growth_vs_blue_chip"]
-
-        if year_founded > 2004:
             score += weights["industry"]
+
+        if ipo_year and ipo_year > 2004:
+            score += weights["growth_vs_blue_chip"]
         # Dividend Yield: Is the dividend yield less than 1%?
         if dividend_yield < 1:
             score += weights["dividends"]
