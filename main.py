@@ -9,8 +9,8 @@ from gsheets_helper import upload_df_to_sheets
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*20)
-start_date = end_date - timedelta(days=365)
+end_date = datetime.now() - timedelta(days=365*2)
+start_date = end_date - timedelta(days=365*30)
 
 
 # Make both start_date and end_date timezone-aware (UTC)
@@ -61,7 +61,7 @@ def main():
 
 # Ensure frequency is set to None (by converting to a list and back to DatetimeIndex)
     analysis_dates = pd.DatetimeIndex(analysis_dates.tolist(), name="Date")
-    
+
     # Loop over the analysis dates
     for date in analysis_dates:
 

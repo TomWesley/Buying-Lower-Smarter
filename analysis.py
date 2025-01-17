@@ -6,7 +6,7 @@ from tqdm import tqdm
 from datetime import datetime
 import pytz  # Import for timezone handling
 
-
+import csv
 from yahooquery import Ticker
 
 
@@ -27,22 +27,37 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
     """
     try:
         # Fetch data from Yahoo Finance
-        stock = Ticker(ticker, asynchronous=True, timeout=5)
-        summary = stock.summary_detail.get(ticker, {})
-        asset_profile = stock.asset_profile.get(ticker, {})
-        key_stats = stock.key_stats
+        # stock = Ticker(ticker, asynchronous=True, timeout=5)
+        # summary = stock.summary_detail.get(ticker, {})
+        # asset_profile = stock.asset_profile.get(ticker, {})
+        # key_stats = stock.key_stats
+        industry ="Unknown"
+        dividend_yield = 0
+        try:
+            with open("output_stock_data.csv", mode='r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if row[0] == ticker:  # Match ticker
+                        industry = row[1]
+                        # Handle "N/A" in dividend yield and convert to float
+                        dividend_yield = float(row[2]) 
+                        if dividend_yield == "N/A":
+                            dividend_yield = 0.0
+            # If ticker not found in the CSV
+        except Exception as e:
+            print(f"Error reading CSV: {e}")
+
         
         # Extract data
-        industry = asset_profile.get("industry", "").lower()
-        dividend_yield = summary.get("dividendYield", 0) * 100  # Convert to percentage
-        ipo_year = key_stats[ticker].get('ipoYear')        
+        # industry = asset_profile.get("industry", "").lower()
+        # dividend_yield = summary.get("dividendYield", 0) * 100  # Convert to percentage
+        # ipo_year = key_stats[ticker].get('ipoYear')        
         # Define weights
         weights = {
-            "industry": 25,
-            "growth_vs_blue_chip": 10,
-            "dividends": 15,
-            "reit": 15,
-            "severity_of_loss": 25,
+            "industry": 30,
+            "dividends": 20,
+            "reit": 5,
+            "severity_of_loss": 35,
             "ranking": 10,
         }
         
@@ -53,8 +68,6 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
         if "technology" in industry or "healthcare" in industry:
             score += weights["industry"]
 
-        if ipo_year and ipo_year > 2004:
-            score += weights["growth_vs_blue_chip"]
         # Dividend Yield: Is the dividend yield less than 1%?
         if dividend_yield < 1:
             score += weights["dividends"]
@@ -98,7 +111,7 @@ def get_biggest_losers(data, date):
         
         confidence_score = calculate_confidence_score(loser, daily_changes[loser], rank)
         rank = rank + 1
-        if(confidence_score < 70):
+        if(confidence_score < 60):
             storevalues.append(loser)
                 
         
@@ -109,8 +122,6 @@ def get_biggest_losers(data, date):
 
 def calculate_return(data, symbol, start_date, pc):
     try:
-    
-        
         # Get the start price
 
         start_price = data[symbol].loc[start_date, 'Close']
@@ -150,7 +161,7 @@ def analyze_results(df_results, sd, ed):
     print("Number of Stocks to Meet Criteria:", len(df_results))
     print(f"Winning Percentage: {winning_percentage:.2f}%")
     print(f"Average Return of Winners: {average_return_of_winners:.2f}%")
-    print(f"Average Return Overall: {average_return_overall:.2f}%")
+    print(f"Average Return Overall(Assuming a 2 Year Hold): {average_return_overall:.2f}%")
     
 
     # Trend Analysis: Day of the Week
