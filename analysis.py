@@ -17,20 +17,10 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
     """
     Calculate a confidence score for a stock based on various factors.
     
-    Parameters:
-        ticker (str): The stock ticker.
-        percentage_change (float): The percentage change of the stock's price.
-        ranking (int): The rank of the stock in the biggest loser list (1 for biggest loser, etc.).
-    
     Returns:
         float: The confidence score between 0 and 100.
     """
     try:
-        # Fetch data from Yahoo Finance
-        # stock = Ticker(ticker, asynchronous=True, timeout=5)
-        # summary = stock.summary_detail.get(ticker, {})
-        # asset_profile = stock.asset_profile.get(ticker, {})
-        # key_stats = stock.key_stats
         industry ="Unknown"
         dividend_yield = 0
         try:
@@ -47,11 +37,6 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
         except Exception as e:
             print(f"Error reading CSV: {e}")
 
-        
-        # Extract data
-        # industry = asset_profile.get("industry", "").lower()
-        # dividend_yield = summary.get("dividendYield", 0) * 100  # Convert to percentage
-        # ipo_year = key_stats[ticker].get('ipoYear')        
         # Define weights
         weights = {
             "industry": 30,
@@ -79,6 +64,8 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
         # Severity of Loss: Did the stock lose more than 5%?
         if percentage_change < -5:  # Assuming percentage_change is negative for losses
             score += weights["severity_of_loss"]
+        else:
+            score += weights["severity_of_loss"]*(100-(5+percentage_change)*15)
 
         # Ranking: Based on position in biggest loser hierarchy
         ranking_score = max(10 - (ranking - 1) * 2, 0)  # 10% for #1, 8% for #2, etc.
@@ -111,7 +98,7 @@ def get_biggest_losers(data, date):
         
         confidence_score = calculate_confidence_score(loser, daily_changes[loser], rank)
         rank = rank + 1
-        if(confidence_score < 60):
+        if(confidence_score < 0):
             storevalues.append(loser)
                 
         
