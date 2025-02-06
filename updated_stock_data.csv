@@ -1,0 +1,552 @@
+Ticker,Industry,Dividend Yield,Volume
+AAPL,Consumer Electronics,0.42,40189431
+MSFT,Software - Infrastructure,0.75,12698488
+AMZN,Internet Retail,0.0,23067168
+GOOGL,Internet Content & Information,0.39,13479907
+GOOG,Internet Content & Information,0.39,8464238
+JNJ,Drug Manufacturers - General,3.35,2214414
+META,Internet Content & Information,0.3,13495055
+V,Credit Services,0.69,3830267
+PG,Household & Personal Products,2.49,3800031
+JPM,Banks - Diversified,2.02,3955027
+UNH,Healthcare Plans,1.55,1929382
+NVDA,Semiconductors,0.03,226261670
+HD,Home Improvement Retail,2.18,1328610
+DIS,Entertainment,0.82,3991007
+PYPL,Credit Services,0.0,5256308
+MA,Credit Services,0.55,1284713
+VZ,Telecom Services,6.92,10216781
+ADBE,Software - Infrastructure,0.0,1408735
+INTC,Semiconductors,2.24,46282340
+CMCSA,Telecom Services,3.32,18970061
+MRK,Drug Manufacturers - General,3.28,4523686
+T,Telecom Services,4.89,23056945
+NFLX,Entertainment,0.0,2073742
+KO,Beverages - Non-Alcoholic,3.06,5448272
+PEP,Beverages - Non-Alcoholic,3.6,2894620
+PFE,Drug Manufacturers - General,6.49,21224343
+CSCO,Communication Equipment,2.64,7575511
+XOM,Oil & Gas Integrated,3.61,6856022
+ABT,Medical Devices,2.02,2266950
+CRM,Software - Application,0.48,2439129
+ACN,Information Technology Services,1.7,1265171
+COST,Discount Stores,0.47,1253060
+WMT,Discount Stores,0.99,9170733
+MDT,Medical Devices,3.2,2457705
+ABBV,Drug Manufacturers - General,3.73,4342122
+AVGO,Semiconductors,1.17,13663286
+TXN,Semiconductors,2.71,2801083
+NEE,Utilities - Regulated Electric,2.98,3657963
+ORCL,Software - Infrastructure,0.83,4383065
+LLY,Drug Manufacturers - General,0.74,1484884
+NKE,Footwear & Accessories,2.08,7720990
+SPGI,Financial Data & Stock Exchanges,0.74,397040
+LIN,Specialty Chemicals,1.25,879779
+AMD,Semiconductors,0.0,18713882
+MCD,Restaurants,2.45,1333221
+LOW,Home Improvement Retail,1.69,737175
+UPS,Integrated Freight & Logistics,4.87,6781220
+MS,Capital Markets,2.83,2417958
+PM,Tobacco,4.15,2480079
+UNP,Railroads,2.27,2034033
+AMGN,Drug Manufacturers - General,3.34,1573266
+QCOM,Semiconductors,1.97,3577410
+INTU,Software - Application,0.61,770233
+RTX,Aerospace & Defense,2.02,1671039
+IBM,Information Technology Services,2.92,3047299
+CHTR,Telecom Services,0.0,649405
+PLD,REIT - Industrial,3.27,1561826
+BA,Aerospace & Defense,0.0,3872628
+MDLZ,Confectioners,3.24,3030281
+ISRG,Medical Instruments & Supplies,0.0,927981
+GS,Capital Markets,2.1,1179605
+AXP,Credit Services,0.86,768658
+DE,Farm & Heavy Construction Machinery,1.45,741558
+BLK,Asset Management,2.12,651622
+GE,Aerospace & Defense,0.59,1747812
+AMT,REIT - Specialty,3.5,802697
+ADI,Semiconductors,1.65,1531639
+EL,Household & Personal Products,1.68,1557207
+MMM,Conglomerates,1.99,1524824
+AMAT,Semiconductor Equipment & Materials,0.86,2425143
+CB,Insurance - Property & Casualty,1.34,471738
+CAT,Farm & Heavy Construction Machinery,1.43,1571017
+TMUS,Telecom Services,1.59,1316782
+DUK,Utilities - Regulated Electric,3.73,1062064
+MMC,Insurance Brokers,1.49,1381578
+SO,Utilities - Regulated Electric,3.43,2424559
+MO,Tobacco,7.75,3758232
+ADI,Semiconductors,1.65,1537577
+SPG,REIT - Retail,4.83,415881
+CCI,REIT - Specialty,7.01,875780
+MDLZ,Confectioners,3.24,3035313
+PNC,Banks - Regional,3.19,598135
+USB,Banks - Regional,3.93,4135407
+BDX,Medical Instruments & Supplies,1.75,1112490
+NSC,Railroads,2.14,545895
+ITW,Specialty Industrial Machinery,2.32,462907
+CI,Healthcare Plans,1.85,823818
+EQIX,REIT - Specialty,1.87,172048
+REGN,Biotechnology,0.0,377824
+EW,Medical Devices,0.0,1260692
+APD,Specialty Chemicals,2.14,556603
+SHW,Specialty Chemicals,0.79,624890
+ADP,Software - Application,2.06,645928
+GS,Capital Markets,2.1,1181975
+PNC,Banks - Regional,3.19,598991
+USB,Banks - Regional,3.93,4144791
+BDX,Medical Instruments & Supplies,1.75,1113194
+NSC,Railroads,2.14,546445
+ITW,Specialty Industrial Machinery,2.32,464061
+CI,Healthcare Plans,1.85,833237
+EQIX,REIT - Specialty,1.87,172175
+REGN,Biotechnology,0.0,378279
+EW,Medical Devices,0.0,1266481
+APD,Specialty Chemicals,2.14,560213
+SHW,Specialty Chemicals,0.79,628623
+ADP,Software - Application,2.06,650101
+GS,Capital Markets,2.1,1187912
+PNC,Banks - Regional,3.19,605452
+USB,Banks - Regional,3.93,4193966
+BDX,Medical Instruments & Supplies,1.75,1119089
+NSC,Railroads,2.14,551973
+ITW,Specialty Industrial Machinery,2.32,468679
+CI,Healthcare Plans,1.85,843673
+EQIX,REIT - Specialty,1.87,173359
+REGN,Biotechnology,0.0,380677
+EW,Medical Devices,0.0,1275146
+APD,Specialty Chemicals,2.14,564159
+SHW,Specialty Chemicals,0.79,632381
+ADP,Software - Application,2.06,653199
+GS,Capital Markets,2.1,1214993
+PNC,Banks - Regional,3.19,615440
+USB,Banks - Regional,3.93,4227874
+BDX,Medical Instruments & Supplies,1.75,1122561
+NSC,Railroads,2.14,553855
+ITW,Specialty Industrial Machinery,2.32,470674
+CI,Healthcare Plans,1.85,846829
+EQIX,REIT - Specialty,1.87,173819
+REGN,Biotechnology,0.0,383695
+EW,Medical Devices,0.0,1287499
+APD,Specialty Chemicals,2.14,566646
+SHW,Specialty Chemicals,0.79,635540
+ADP,Software - Application,2.06,657296
+GS,Capital Markets,2.1,1219978
+PNC,Banks - Regional,3.19,629158
+USB,Banks - Regional,3.93,4260764
+BDX,Medical Instruments & Supplies,1.75,1127471
+NSC,Railroads,2.14,554151
+ITW,Specialty Industrial Machinery,2.32,471369
+CI,Healthcare Plans,1.85,848595
+EQIX,REIT - Specialty,1.87,173868
+REGN,Biotechnology,0.0,384234
+EW,Medical Devices,0.0,1289282
+APD,Specialty Chemicals,2.14,567922
+SHW,Specialty Chemicals,0.79,636744
+ADP,Software - Application,2.06,657746
+GS,Capital Markets,2.1,1221452
+PNC,Banks - Regional,3.19,629791
+USB,Banks - Regional,3.93,4269437
+BDX,Medical Instruments & Supplies,1.75,1127955
+NSC,Railroads,2.14,554367
+ITW,Specialty Industrial Machinery,2.32,472020
+CI,Healthcare Plans,1.85,849312
+EQIX,REIT - Specialty,1.87,173919
+REGN,Biotechnology,0.0,384527
+EW,Medical Devices,0.0,1290057
+APD,Specialty Chemicals,2.14,570075
+SHW,Specialty Chemicals,0.79,638643
+ADP,Software - Application,2.06,659947
+GS,Capital Markets,2.1,1224659
+PNC,Banks - Regional,3.19,631390
+USB,Banks - Regional,3.93,4300185
+BDX,Medical Instruments & Supplies,1.75,1129625
+NSC,Railroads,2.14,555787
+ITW,Specialty Industrial Machinery,2.32,472674
+CI,Healthcare Plans,1.85,849357
+EQIX,REIT - Specialty,1.87,174084
+REGN,Biotechnology,0.0,384879
+EW,Medical Devices,0.0,1292585
+APD,Specialty Chemicals,2.14,571855
+SHW,Specialty Chemicals,0.79,640705
+ADP,Software - Application,2.06,660978
+GS,Capital Markets,2.1,1228064
+PNC,Banks - Regional,3.19,633728
+USB,Banks - Regional,3.93,4329838
+BDX,Medical Instruments & Supplies,1.75,1131867
+NSC,Railroads,2.14,556273
+ITW,Specialty Industrial Machinery,2.32,473336
+CI,Healthcare Plans,1.85,855249
+EQIX,REIT - Specialty,1.87,174139
+REGN,Biotechnology,0.0,385245
+EW,Medical Devices,0.0,1294074
+APD,Specialty Chemicals,2.14,573742
+SHW,Specialty Chemicals,0.79,641727
+ADP,Software - Application,2.06,661903
+GS,Capital Markets,2.1,1230418
+PNC,Banks - Regional,3.19,634512
+USB,Banks - Regional,3.93,4343739
+BDX,Medical Instruments & Supplies,1.75,1133608
+NSC,Railroads,2.14,557119
+ITW,Specialty Industrial Machinery,2.32,474098
+CI,Healthcare Plans,1.85,858282
+EQIX,REIT - Specialty,1.87,174336
+REGN,Biotechnology,0.0,385660
+EW,Medical Devices,0.0,1296319
+APD,Specialty Chemicals,2.14,574678
+SHW,Specialty Chemicals,0.79,641870
+ADP,Software - Application,2.06,662841
+GS,Capital Markets,2.1,1233782
+PNC,Banks - Regional,3.19,636753
+USB,Banks - Regional,3.93,4354409
+BDX,Medical Instruments & Supplies,1.75,1135121
+NSC,Railroads,2.14,558321
+ITW,Specialty Industrial Machinery,2.32,474535
+CI,Healthcare Plans,1.85,859266
+EQIX,REIT - Specialty,1.87,174494
+REGN,Biotechnology,0.0,386989
+EW,Medical Devices,0.0,1302906
+APD,Specialty Chemicals,2.14,577266
+SHW,Specialty Chemicals,0.79,644797
+ADP,Software - Application,2.06,664233
+GS,Capital Markets,2.1,1234740
+PNC,Banks - Regional,3.19,637841
+USB,Banks - Regional,3.93,4375239
+BDX,Medical Instruments & Supplies,1.75,1138058
+NSC,Railroads,2.14,558981
+ITW,Specialty Industrial Machinery,2.32,475029
+CI,Healthcare Plans,1.85,859660
+EQIX,REIT - Specialty,1.87,174544
+REGN,Biotechnology,0.0,387383
+EW,Medical Devices,0.0,1305174
+APD,Specialty Chemicals,2.14,577541
+SHW,Specialty Chemicals,0.79,645939
+ADP,Software - Application,2.06,664437
+GS,Capital Markets,2.1,1234960
+PNC,Banks - Regional,3.19,638051
+USB,Banks - Regional,3.93,4389516
+BDX,Medical Instruments & Supplies,1.75,1138929
+NSC,Railroads,2.14,559401
+ITW,Specialty Industrial Machinery,2.32,476080
+CI,Healthcare Plans,1.85,860658
+EQIX,REIT - Specialty,1.87,174938
+REGN,Biotechnology,0.0,393115
+EW,Medical Devices,0.0,1308208
+APD,Specialty Chemicals,2.14,578346
+SHW,Specialty Chemicals,0.79,647933
+ADP,Software - Application,2.06,665386
+GS,Capital Markets,2.1,1236772
+PNC,Banks - Regional,3.19,647925
+USB,Banks - Regional,3.93,4399000
+BDX,Medical Instruments & Supplies,1.75,1139783
+NSC,Railroads,2.14,559988
+ITW,Specialty Industrial Machinery,2.32,477232
+CI,Healthcare Plans,1.85,860880
+EQIX,REIT - Specialty,1.87,175194
+REGN,Biotechnology,0.0,393823
+EW,Medical Devices,0.0,1309980
+APD,Specialty Chemicals,2.14,578662
+SHW,Specialty Chemicals,0.79,649679
+ADP,Software - Application,2.06,666804
+GS,Capital Markets,2.1,1239234
+PNC,Banks - Regional,3.19,648117
+USB,Banks - Regional,3.93,4418201
+BDX,Medical Instruments & Supplies,1.75,1140379
+NSC,Railroads,2.14,560126
+ITW,Specialty Industrial Machinery,2.32,477530
+CI,Healthcare Plans,1.85,861639
+EQIX,REIT - Specialty,1.87,175237
+REGN,Biotechnology,0.0,395819
+EW,Medical Devices,0.0,1312068
+APD,Specialty Chemicals,2.14,579829
+SHW,Specialty Chemicals,0.79,651175
+ADP,Software - Application,2.06,667079
+GS,Capital Markets,2.1,1241360
+PNC,Banks - Regional,3.19,650650
+USB,Banks - Regional,3.93,4447838
+BDX,Medical Instruments & Supplies,1.75,1142849
+NSC,Railroads,2.14,561243
+ITW,Specialty Industrial Machinery,2.32,478658
+CI,Healthcare Plans,1.85,864774
+EQIX,REIT - Specialty,1.87,175803
+REGN,Biotechnology,0.0,396585
+EW,Medical Devices,0.0,1313795
+APD,Specialty Chemicals,2.14,582511
+SHW,Specialty Chemicals,0.79,651842
+ADP,Software - Application,2.06,669411
+GS,Capital Markets,2.1,1245461
+PNC,Banks - Regional,3.19,652847
+USB,Banks - Regional,3.93,4455661
+BDX,Medical Instruments & Supplies,1.75,1143423
+NSC,Railroads,2.14,561451
+ITW,Specialty Industrial Machinery,2.32,478772
+CI,Healthcare Plans,1.85,866805
+EQIX,REIT - Specialty,1.87,175840
+REGN,Biotechnology,0.0,397458
+EW,Medical Devices,0.0,1316088
+APD,Specialty Chemicals,2.14,582879
+SHW,Specialty Chemicals,0.79,652026
+ADP,Software - Application,2.06,669702
+GS,Capital Markets,2.1,1246530
+PNC,Banks - Regional,3.19,653745
+USB,Banks - Regional,3.93,4459483
+BDX,Medical Instruments & Supplies,1.75,1144037
+NSC,Railroads,2.14,561705
+ITW,Specialty Industrial Machinery,2.32,479099
+CI,Healthcare Plans,1.85,870367
+EQIX,REIT - Specialty,1.87,175864
+REGN,Biotechnology,0.0,398076
+EW,Medical Devices,0.0,1318354
+APD,Specialty Chemicals,2.14,584363
+SHW,Specialty Chemicals,0.79,652389
+ADP,Software - Application,2.06,670799
+GS,Capital Markets,2.1,1249241
+PNC,Banks - Regional,3.19,655349
+USB,Banks - Regional,3.93,4470851
+BDX,Medical Instruments & Supplies,1.75,1148692
+NSC,Railroads,2.14,562397
+ITW,Specialty Industrial Machinery,2.32,479872
+CI,Healthcare Plans,1.85,876696
+EQIX,REIT - Specialty,1.87,175984
+REGN,Biotechnology,0.0,399004
+EW,Medical Devices,0.0,1323223
+APD,Specialty Chemicals,2.14,586242
+SHW,Specialty Chemicals,0.79,652632
+ADP,Software - Application,2.06,671975
+GS,Capital Markets,2.1,1250634
+PNC,Banks - Regional,3.19,656187
+USB,Banks - Regional,3.93,4475715
+BDX,Medical Instruments & Supplies,1.75,1149917
+NSC,Railroads,2.14,562733
+ITW,Specialty Industrial Machinery,2.32,480305
+CI,Healthcare Plans,1.85,877083
+EQIX,REIT - Specialty,1.87,176174
+REGN,Biotechnology,0.0,400272
+EW,Medical Devices,0.0,1326633
+APD,Specialty Chemicals,2.14,587379
+SHW,Specialty Chemicals,0.79,654178
+ADP,Software - Application,2.06,675696
+GS,Capital Markets,2.1,1252149
+PNC,Banks - Regional,3.19,657238
+USB,Banks - Regional,3.93,4486355
+BDX,Medical Instruments & Supplies,1.75,1151710
+NSC,Railroads,2.14,563397
+ITW,Specialty Industrial Machinery,2.32,480996
+CI,Healthcare Plans,1.85,880098
+EQIX,REIT - Specialty,1.87,176220
+REGN,Biotechnology,0.0,400704
+EW,Medical Devices,0.0,1327915
+APD,Specialty Chemicals,2.14,587882
+SHW,Specialty Chemicals,0.79,655119
+ADP,Software - Application,2.06,677229
+GS,Capital Markets,2.1,1253581
+PNC,Banks - Regional,3.19,657959
+USB,Banks - Regional,3.93,4496642
+BDX,Medical Instruments & Supplies,1.75,1153398
+NSC,Railroads,2.14,564364
+ITW,Specialty Industrial Machinery,2.32,482510
+CI,Healthcare Plans,1.85,881707
+EQIX,REIT - Specialty,1.87,176412
+REGN,Biotechnology,0.0,401358
+EW,Medical Devices,0.0,1330638
+APD,Specialty Chemicals,2.14,592894
+SHW,Specialty Chemicals,0.79,658576
+ADP,Software - Application,2.06,679832
+GS,Capital Markets,2.1,1255045
+PNC,Banks - Regional,3.19,659991
+USB,Banks - Regional,3.93,4513738
+BDX,Medical Instruments & Supplies,1.75,1154588
+NSC,Railroads,2.14,565944
+ITW,Specialty Industrial Machinery,2.32,483178
+CI,Healthcare Plans,1.85,883588
+EQIX,REIT - Specialty,1.87,176420
+REGN,Biotechnology,0.0,401565
+EW,Medical Devices,0.0,1331197
+APD,Specialty Chemicals,2.14,593735
+SHW,Specialty Chemicals,0.79,658804
+ADP,Software - Application,2.06,680290
+GS,Capital Markets,2.1,1256339
+PNC,Banks - Regional,3.19,661319
+USB,Banks - Regional,3.93,4519780
+BDX,Medical Instruments & Supplies,1.75,1155766
+NSC,Railroads,2.14,566400
+ITW,Specialty Industrial Machinery,2.32,483904
+CI,Healthcare Plans,1.85,883813
+EQIX,REIT - Specialty,1.87,176426
+REGN,Biotechnology,0.0,402256
+EW,Medical Devices,0.0,1332579
+APD,Specialty Chemicals,2.14,596985
+SHW,Specialty Chemicals,0.79,659526
+ADP,Software - Application,2.06,680628
+GS,Capital Markets,2.1,1256843
+PNC,Banks - Regional,3.19,661604
+USB,Banks - Regional,3.93,4525780
+BDX,Medical Instruments & Supplies,1.75,1157309
+NSC,Railroads,2.14,566712
+ITW,Specialty Industrial Machinery,2.32,484540
+CI,Healthcare Plans,1.85,883930
+EQIX,REIT - Specialty,1.87,176498
+REGN,Biotechnology,0.0,402582
+EW,Medical Devices,0.0,1334770
+APD,Specialty Chemicals,2.14,604012
+SHW,Specialty Chemicals,0.79,659802
+ADP,Software - Application,2.06,680988
+GS,Capital Markets,2.1,1258409
+PNC,Banks - Regional,3.19,663737
+USB,Banks - Regional,3.93,4532265
+BDX,Medical Instruments & Supplies,1.75,1158953
+NSC,Railroads,2.14,567062
+ITW,Specialty Industrial Machinery,2.32,484882
+CI,Healthcare Plans,1.85,885294
+EQIX,REIT - Specialty,1.87,177164
+REGN,Biotechnology,0.0,402754
+EW,Medical Devices,0.0,1339892
+APD,Specialty Chemicals,2.14,607201
+SHW,Specialty Chemicals,0.79,662579
+ADP,Software - Application,2.06,683202
+GS,Capital Markets,2.1,1263152
+PNC,Banks - Regional,3.19,666985
+USB,Banks - Regional,3.93,4547297
+BDX,Medical Instruments & Supplies,1.75,1161984
+NSC,Railroads,2.14,567984
+ITW,Specialty Industrial Machinery,2.32,486803
+CI,Healthcare Plans,1.85,886206
+EQIX,REIT - Specialty,1.87,177284
+REGN,Biotechnology,0.0,403055
+EW,Medical Devices,0.0,1342082
+APD,Specialty Chemicals,2.14,612344
+SHW,Specialty Chemicals,0.79,663847
+ADP,Software - Application,2.06,685269
+GS,Capital Markets,2.1,1264543
+PNC,Banks - Regional,3.19,667424
+USB,Banks - Regional,3.93,4580102
+BDX,Medical Instruments & Supplies,1.75,1163597
+NSC,Railroads,2.14,569483
+ITW,Specialty Industrial Machinery,2.32,488369
+CI,Healthcare Plans,1.85,886261
+EQIX,REIT - Specialty,1.87,177732
+REGN,Biotechnology,0.0,407208
+EW,Medical Devices,0.0,1342707
+APD,Specialty Chemicals,2.14,614394
+SHW,Specialty Chemicals,0.79,665118
+ADP,Software - Application,2.06,686338
+GS,Capital Markets,2.1,1266349
+PNC,Banks - Regional,3.19,669102
+USB,Banks - Regional,3.93,4594671
+BDX,Medical Instruments & Supplies,1.75,1164377
+NSC,Railroads,2.14,570767
+ITW,Specialty Industrial Machinery,2.32,489365
+CI,Healthcare Plans,1.85,888064
+EQIX,REIT - Specialty,1.87,177825
+REGN,Biotechnology,0.0,408609
+EW,Medical Devices,0.0,1344569
+APD,Specialty Chemicals,2.14,617223
+SHW,Specialty Chemicals,0.79,666424
+ADP,Software - Application,2.06,686957
+GS,Capital Markets,2.1,1268536
+PNC,Banks - Regional,3.19,670157
+USB,Banks - Regional,3.93,4603535
+BDX,Medical Instruments & Supplies,1.75,1166728
+NSC,Railroads,2.14,571252
+ITW,Specialty Industrial Machinery,2.32,490527
+CI,Healthcare Plans,1.85,889278
+EQIX,REIT - Specialty,1.87,177954
+REGN,Biotechnology,0.0,410489
+EW,Medical Devices,0.0,1345687
+APD,Specialty Chemicals,2.14,624250
+SHW,Specialty Chemicals,0.79,670464
+ADP,Software - Application,2.06,687800
+GS,Capital Markets,2.1,1270314
+PNC,Banks - Regional,3.19,670678
+USB,Banks - Regional,3.93,4609470
+BDX,Medical Instruments & Supplies,1.75,1167919
+NSC,Railroads,2.14,571488
+ITW,Specialty Industrial Machinery,2.32,495362
+CI,Healthcare Plans,1.85,889871
+EQIX,REIT - Specialty,1.87,177997
+REGN,Biotechnology,0.0,412158
+EW,Medical Devices,0.0,1347139
+APD,Specialty Chemicals,2.14,625806
+SHW,Specialty Chemicals,0.79,670582
+ADP,Software - Application,2.06,688477
+GS,Capital Markets,2.1,1271605
+PNC,Banks - Regional,3.19,671708
+USB,Banks - Regional,3.93,4615760
+BDX,Medical Instruments & Supplies,1.75,1168400
+NSC,Railroads,2.14,577429
+ITW,Specialty Industrial Machinery,2.32,505668
+CI,Healthcare Plans,1.85,890301
+EQIX,REIT - Specialty,1.87,178037
+REGN,Biotechnology,0.0,414019
+EW,Medical Devices,0.0,1349513
+APD,Specialty Chemicals,2.14,626759
+SHW,Specialty Chemicals,0.79,672249
+ADP,Software - Application,2.06,691066
+GS,Capital Markets,2.1,1274435
+PNC,Banks - Regional,3.19,672336
+USB,Banks - Regional,3.93,4624130
+BDX,Medical Instruments & Supplies,1.75,1170254
+NSC,Railroads,2.14,578435
+ITW,Specialty Industrial Machinery,2.32,525147
+CI,Healthcare Plans,1.85,891174
+EQIX,REIT - Specialty,1.87,178085
+REGN,Biotechnology,0.0,414274
+EW,Medical Devices,0.0,1353502
+APD,Specialty Chemicals,2.14,627592
+SHW,Specialty Chemicals,0.79,673842
+ADP,Software - Application,2.06,692538
+GS,Capital Markets,2.1,1274926
+PNC,Banks - Regional,3.19,673106
+USB,Banks - Regional,3.93,4630118
+BDX,Medical Instruments & Supplies,1.75,1171042
+NSC,Railroads,2.14,580150
+ITW,Specialty Industrial Machinery,2.32,527935
+CI,Healthcare Plans,1.85,892074
+EQIX,REIT - Specialty,1.87,178283
+REGN,Biotechnology,0.0,414378
+EW,Medical Devices,0.0,1355773
+APD,Specialty Chemicals,2.14,628083
+SHW,Specialty Chemicals,0.79,674132
+ADP,Software - Application,2.06,693349
+GS,Capital Markets,2.1,1276461
+PNC,Banks - Regional,3.19,673872
+USB,Banks - Regional,3.93,4640369
+BDX,Medical Instruments & Supplies,1.75,1171911
+NSC,Railroads,2.14,581016
+ITW,Specialty Industrial Machinery,2.32,530102
+CI,Healthcare Plans,1.85,896334
+EQIX,REIT - Specialty,1.87,178307
+REGN,Biotechnology,0.0,415532
+EW,Medical Devices,0.0,1358073
+APD,Specialty Chemicals,2.14,629884
+SHW,Specialty Chemicals,0.79,677005
+ADP,Software - Application,2.06,695716
+GS,Capital Markets,2.1,1277899
+PNC,Banks - Regional,3.19,676280
+USB,Banks - Regional,3.93,4645480
+BDX,Medical Instruments & Supplies,1.75,1172782
+NSC,Railroads,2.14,581245
+ITW,Specialty Industrial Machinery,2.32,534161
+CI,Healthcare Plans,1.85,897999
+EQIX,REIT - Specialty,1.87,179001
+REGN,Biotechnology,0.0,416254
+EW,Medical Devices,0.0,1361980
+APD,Specialty Chemicals,2.14,632407
+SHW,Specialty Chemicals,0.79,677842
+ADP,Software - Application,2.06,697140
+GS,Capital Markets,2.1,1279636
+PNC,Banks - Regional,3.19,678578
+USB,Banks - Regional,3.93,4652346
+BDX,Medical Instruments & Supplies,1.75,1173920
+NSC,Railroads,2.14,581924
+ITW,Specialty Industrial Machinery,2.32,536226
+CI,Healthcare Plans,1.85,898769
+EQIX,REIT - Specialty,1.87,179222
+REGN,Biotechnology,0.0,417101
+EW,Medical Devices,0.0,1365923
+APD,Specialty Chemicals,2.14,634966
+SHW,Specialty Chemicals,0.79,684223
+ADP,Software - Application,2.06,698197
+GS,Capital Markets,2.1,1282323
+PNC,Banks - Regional,3.19,679956
+USB,Banks - Regional,3.93,4658455

@@ -18,14 +18,14 @@ def fetch_stock_info(tickers, output_file, delay=2):
             # Extract relevant fields
             industry = summary.get('industry', 'N/A')
             dividend_yield = quote.get('dividendYield', 'N/A')
-            ipo_date = stats.get('ipoDate', 'N/A')
-
+            volume = quote.get('regularMarketVolume', 'N/A')
+            
             # Add the stock's data to the list
             stock_data.append({
                 'Ticker': ticker,
                 'Industry': industry,
                 'Dividend Yield': dividend_yield,
-                'IPO Date': ipo_date,
+                'Volume': volume
             })
 
             print(f"Fetched data for {ticker}")
@@ -36,7 +36,7 @@ def fetch_stock_info(tickers, output_file, delay=2):
                 'Ticker': ticker,
                 'Industry': 'Error',
                 'Dividend Yield': 'Error',
-                'IPO Date': 'Error',
+                'Volume': 'Error'
             })
 
         # Wait for the specified delay to avoid hitting rate limits
@@ -44,7 +44,7 @@ def fetch_stock_info(tickers, output_file, delay=2):
 
     # Write the data to a CSV file
     with open(output_file, mode='w', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=['Ticker', 'Industry', 'Dividend Yield', 'IPO Date'])
+        writer = csv.DictWriter(file, fieldnames=['Ticker', 'Industry', 'Dividend Yield', 'Volume'])
         writer.writeheader()
         writer.writerows(stock_data)
 
@@ -52,8 +52,9 @@ def fetch_stock_info(tickers, output_file, delay=2):
 
 # Read tickers from input CSV (single row)
 input_file = 'currentSANDP.csv'
-output_file = 'output_stock_data.csv'
+output_file = 'updated_stock_data.csv'
 
+tickers = []
 with open(input_file, mode='r') as file:
     reader = csv.reader(file)
     for row in reader:

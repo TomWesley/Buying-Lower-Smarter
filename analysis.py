@@ -23,27 +23,33 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
     try:
         industry ="Unknown"
         dividend_yield = 0
+        vol = 0
         try:
-            with open("output_stock_data.csv", mode='r') as file:
+            with open("updated_stock_data.csv", mode='r') as file:
                 reader = csv.reader(file)
                 for row in reader:
                     if row[0] == ticker:  # Match ticker
                         industry = row[1]
                         # Handle "N/A" in dividend yield and convert to float
                         dividend_yield = float(row[2]) 
+                        vol = int(row[3]) 
+            
                         if dividend_yield == "N/A":
                             dividend_yield = 0.0
+                        
+                        
             # If ticker not found in the CSV
         except Exception as e:
             print(f"Error reading CSV: {e}")
 
         # Define weights
         weights = {
-            "industry": 30,
-            "dividends": 20,
-            "reit": 5,
-            "severity_of_loss": 35,
+            "industry": 25,
+            "dividends": 25,
+            "reit": 10,
+            "severity_of_loss": 20,
             "ranking": 10,
+            "volume": 10
         }
         
         # Calculate score components
@@ -61,11 +67,15 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
         if "reit" not in industry:
             score += weights["reit"]
 
-        # Severity of Loss: Did the stock lose more than 5%?
-        if percentage_change < -5:  # Assuming percentage_change is negative for losses
-            score += weights["severity_of_loss"]
-        else:
-            score += weights["severity_of_loss"]*(100-(5+percentage_change)*15)
+        print(percentage_change)
+        #Severity of Loss: Did the stock lose more than 5%?
+        # if percentage_change < -5:  # Assuming percentage_change is negative for losses
+        #     score += weights["severity_of_loss"]
+        # else:
+        #     score += weights["severity_of_loss"]*(100-((5+percentage_change)*20))
+
+        if vol > 30000000:
+            score += weights["volume"]
 
         # Ranking: Based on position in biggest loser hierarchy
         ranking_score = max(10 - (ranking - 1) * 2, 0)  # 10% for #1, 8% for #2, etc.
@@ -97,8 +107,9 @@ def get_biggest_losers(data, date):
     for loser in temp:
         
         confidence_score = calculate_confidence_score(loser, daily_changes[loser], rank)
+        # print(confidence_score)
         rank = rank + 1
-        if(confidence_score < 0):
+        if(confidence_score < 90):
             storevalues.append(loser)
                 
         
@@ -146,6 +157,7 @@ def analyze_results(df_results, sd, ed):
     print("Start Date:", sd )
     print("End Date:", ed)
     print("Number of Stocks to Meet Criteria:", len(df_results))
+    print("Number of Stocks Selected/Day on Average: CALCULATE THIS LATER")
     print(f"Winning Percentage: {winning_percentage:.2f}%")
     print(f"Average Return of Winners: {average_return_of_winners:.2f}%")
     print(f"Average Return Overall(Assuming a 2 Year Hold): {average_return_overall:.2f}%")
