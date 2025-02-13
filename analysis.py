@@ -43,14 +43,24 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
             print(f"Error reading CSV: {e}")
 
         # Define weights
+        #weights #1
         weights = {
-            "industry": 25,
-            "dividends": 25,
+            "industry": 15,
+            "dividends": 15,
             "reit": 10,
-            "severity_of_loss": 20,
+            "severity_of_loss": 30,
             "ranking": 10,
-            "volume": 10
+            "volume": 20
         }
+
+        # weights = {
+        #     "industry": 25,
+        #     "dividends": 25,
+        #     "reit": 10,
+        #     "severity_of_loss": 20,
+        #     "ranking": 10,
+        #     "volume": 10
+        # }
         
         # Calculate score components
         score = 0
@@ -67,18 +77,17 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
         if "reit" not in industry:
             score += weights["reit"]
 
-        print(percentage_change)
         #Severity of Loss: Did the stock lose more than 5%?
-        # if percentage_change < -5:  # Assuming percentage_change is negative for losses
-        #     score += weights["severity_of_loss"]
-        # else:
-        #     score += weights["severity_of_loss"]*(100-((5+percentage_change)*20))
+        if percentage_change < -5:  # Assuming percentage_change is negative for losses
+            score += weights["severity_of_loss"]
+        else:
+            score += weights["severity_of_loss"]*((100-(5+percentage_change)*20)/100)
 
         if vol > 30000000:
             score += weights["volume"]
 
         # Ranking: Based on position in biggest loser hierarchy
-        ranking_score = max(10 - (ranking - 1) * 2, 0)  # 10% for #1, 8% for #2, etc.
+        ranking_score = max(weights["ranking"] - (ranking - 1) * (weights["ranking"]/5), 0)  # 10% for #1, 8% for #2, etc.
         score += ranking_score
 
         # Return the confidence score
@@ -107,9 +116,9 @@ def get_biggest_losers(data, date):
     for loser in temp:
         
         confidence_score = calculate_confidence_score(loser, daily_changes[loser], rank)
-        # print(confidence_score)
+        
         rank = rank + 1
-        if(confidence_score < 90):
+        if(confidence_score < 60):
             storevalues.append(loser)
                 
         

@@ -10,8 +10,8 @@ import time
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*5)
-start_date = end_date - timedelta(days=3)
+end_date = datetime.now() - timedelta(days=365*2)
+start_date = end_date - timedelta(days=365*35)
 
 
 # Make both start_date and end_date timezone-aware (UTC)
