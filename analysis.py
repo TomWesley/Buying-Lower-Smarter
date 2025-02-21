@@ -6,6 +6,96 @@ from tqdm import tqdm
 from datetime import datetime
 import pytz  # Import for timezone handling
 
+import csv
+from yahooquery import Ticker
+
+
+# Set timeout globally (e.g., 10 seconds)
+
+
+def calculate_confidence_score(ticker: str, percentage_change: float, ranking: int) -> float:
+    """
+    Calculate a confidence score for a stock based on various factors.
+    
+    Returns:
+        float: The confidence score between 0 and 100.
+    """
+    try:
+        industry ="Unknown"
+        dividend_yield = 0
+        vol = 0
+        try:
+            with open("updated_stock_data.csv", mode='r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if row[0] == ticker:  # Match ticker
+                        industry = row[1]
+                        # Handle "N/A" in dividend yield and convert to float
+                        dividend_yield = float(row[2]) 
+                        vol = int(row[3]) 
+            
+                        if dividend_yield == "N/A":
+                            dividend_yield = 0.0
+                        
+                        
+            # If ticker not found in the CSV
+        except Exception as e:
+            print(f"Error reading CSV: {e}")
+
+        # Define weights
+        #weights #1
+        weights = {
+            "industry": 15,
+            "dividends": 15,
+            "reit": 10,
+            "severity_of_loss": 30,
+            "ranking": 10,
+            "volume": 20
+        }
+
+        # weights = {
+        #     "industry": 25,
+        #     "dividends": 25,
+        #     "reit": 10,
+        #     "severity_of_loss": 20,
+        #     "ranking": 10,
+        #     "volume": 10
+        # }
+        
+        # Calculate score components
+        score = 0
+
+        # Industry: Is it a technology or innovative healthcare company?
+        if "technology" in industry or "healthcare" in industry:
+            score += weights["industry"]
+
+        # Dividend Yield: Is the dividend yield less than 1%?
+        if dividend_yield < 1:
+            score += weights["dividends"]
+
+        # REIT: Is it not a REIT stock?
+        if "reit" not in industry:
+            score += weights["reit"]
+
+        #Severity of Loss: Did the stock lose more than 5%?
+        if percentage_change < -5:  # Assuming percentage_change is negative for losses
+            score += weights["severity_of_loss"]
+        else:
+            score += weights["severity_of_loss"]*((100-(5+percentage_change)*20)/100)
+
+        if vol > 30000000:
+            score += weights["volume"]
+
+        # Ranking: Based on position in biggest loser hierarchy
+        ranking_score = max(weights["ranking"] - (ranking - 1) * (weights["ranking"]/5), 0)  # 10% for #1, 8% for #2, etc.
+        score += ranking_score
+
+        # Return the confidence score
+        return score
+    
+    except Exception as e:
+        print(f"Error calculating confidence score for {ticker}: {e}")
+        return 0.0
 
 def get_biggest_losers(data, date):
     daily_changes = {}
@@ -18,20 +108,27 @@ def get_biggest_losers(data, date):
             daily_changes[symbol] = percentage_change
             
             
-    # print(f"Average Loss Of Biggest Loser On Day of Theoretical Purchase: {percentage_changes_average:.2f}%")
     losers = sorted(daily_changes, key=daily_changes.get)[:5]
-    #AI SECTION
-    # rank = 1
-    # for loser in losers:
-    #     rank = rank + 1
-    #     print(loser)
-    #     print(validation_result)
+    rank = 1
+    
+    temp = losers
+    storevalues = []
+    for loser in temp:
+        
+        confidence_score = calculate_confidence_score(loser, daily_changes[loser], rank)
+        
+        rank = rank + 1
+        if(confidence_score < 60):
+            storevalues.append(loser)
+                
+        
+    for s in storevalues:
+        losers.remove(s)
+    # print(losers)
     return losers, percentage_change
 
 def calculate_return(data, symbol, start_date, pc):
     try:
-    
-        
         # Get the start price
 
         start_price = data[symbol].loc[start_date, 'Close']
@@ -68,16 +165,18 @@ def analyze_results(df_results, sd, ed):
     average_return_overall = df_results['return_2y'].mean()
     print("Start Date:", sd )
     print("End Date:", ed)
+    print("Number of Stocks to Meet Criteria:", len(df_results))
+    print("Number of Stocks Selected/Day on Average: CALCULATE THIS LATER")
     print(f"Winning Percentage: {winning_percentage:.2f}%")
     print(f"Average Return of Winners: {average_return_of_winners:.2f}%")
-    print(f"Average Return Overall: {average_return_overall:.2f}%")
+    print(f"Average Return Overall(Assuming a 2 Year Hold): {average_return_overall:.2f}%")
     
 
     # Trend Analysis: Day of the Week
-    df_results['day_of_week'] = df_results['date'].dt.day_name()
-    day_of_week_trends = df_results.groupby('day_of_week')['return_2y'].mean()
+    # df_results['day_of_week'] = df_results['date'].dt.day_name()
+    # day_of_week_trends = df_results.groupby('day_of_week')['return_2y'].mean()
     
-    print("Day of the Week Trends:", day_of_week_trends)
+    # print("Day of the Week Trends:", day_of_week_trends)
 
     # Market Performance Analysis
     print("\n=== SPY Rolling 2-Year Returns ===")

@@ -6,21 +6,18 @@ from tqdm import tqdm
 from datetime import datetime
 import pytz  # Import for timezone handling
 from gsheets_helper import upload_df_to_sheets
+import time
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*6)
-start_date = end_date - timedelta(days=365*5)
+end_date = datetime.now() - timedelta(days=365*2)
+start_date = end_date - timedelta(days=365*35)
 
 
 # Make both start_date and end_date timezone-aware (UTC)
 ny_tz = pytz.timezone('America/New_York')
 end_date = ny_tz.localize(end_date.replace(hour=0, minute=0, second=0, microsecond=0))
 start_date = ny_tz.localize(start_date.replace(hour=0, minute=0, second=0, microsecond=0))
-
-
-
-
 
 def main():
     
@@ -64,22 +61,6 @@ def main():
 
     # Loop over the analysis dates
     for date in analysis_dates:
-        # data = {}
-        # hist_data = None
-        # for symbol in sp500_symbols:
-        #     try:
-        #         stock = yf.Ticker(symbol)
-        #         temp_end_date = date + timedelta(days=365*2)
-        #         # Fetch historical data within the specific 5-year window
-        #         hist_data = stock.history(start=date, end=temp_end_date)
-                
-        #         # Store the filtered data
-        #         if not hist_data.empty:
-        #             data[symbol] = hist_data
-        #         else:
-        #             print(f"Skipping {symbol}: No data available in time window")
-        #     except Exception as e:
-        #         print(f"Error fetching data for {symbol}: {e}")
 
 
         spy_daily_change = None
@@ -99,13 +80,30 @@ def main():
                 loser_open  = data[loser].loc[date, 'Open']
                 loser_close = data[loser].loc[date, 'Close']
                 loser_daily_change = (loser_close - loser_open) / loser_open * 100
+                # try:
+                #     stock = yf.Ticker(loser)
+                #     info = stock.info
+
+                #     # Check if data exists; sometimes it's missing, especially for less common stocks.
+                #     if "volume" in info and "marketCap" in info:
+                #         volume = info["volume"]
+                #         market_cap = info["marketCap"]
+                        
+                #     else:
+                #         print(f"Volume or Market Cap data not available for {loser}")
+
+                #     time.sleep(1)
+                # except Exception as e:
+                #     print(f"Error fetching data for {loser}: {e}")
+                    
+            
 
                 results.append({
                     'date': date,
                     'loser': loser,
                     'loser_daily_change': loser_daily_change,
                     'return_2y': return_2y,
-                    'spy_daily_change': spy_daily_change
+                    'spy_daily_change': spy_daily_change,
                 })
     
     # Step 3: Analyze results
@@ -119,12 +117,14 @@ def main():
     df_results['analysis_start_date'] = start_date.strftime('%Y-%m-%d')
     df_results['analysis_end_date']   = end_date.strftime('%Y-%m-%d')
 
-    upload_df_to_sheets(
-    df_results, 
-    sheet_name="Biggest Loser Results",
-    creds_file=r"C:\Users\ioana\projects\bigloserkey\stock-analysis-sheets-export-b83325cfadb5.json"
+
+#GOOGLE SHEETS SECTION
+#     upload_df_to_sheets(
+#     df_results, 
+#     sheet_name="Biggest Loser Results",
+#     creds_file=r"/Users/tomwesley/LocalGithubFiles/StockAnalysisBiggestLosers/stock-analysis-sheets-export-b83325cfadb5.json"
     
-)
+# )
 
 if __name__ == "__main__":
     main()
