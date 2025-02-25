@@ -3,15 +3,20 @@
 ## Introduction
 This repository is designed to:
 
-Identify the biggest losing stocks on a given day (primarily focusing on the S&P 500).
+Run a daily job that offers a recommendation about buying the S&P 500s stocks with the largest daily losses by percentage. 
 
-Calculate and record the stocks’ 2-year returns from each losing day.
+Distribute that recommendation and a brief analysis of the calculation to a mail list.
 
-Compare these returns to the market benchmark (e.g., SPY).
+This document will go through the methodology for the model that runs this daily job and makes the recommendations.
 
-Upload these results to Google Sheets for easy viewing, collaboration and further analysis.
+## File Hierarchy
+
+The files of note for anyone looking to replicate validate these results or run their own analysis are the following:
+
 
 Additionally, there are helper scripts to clean CSV data and compute confidence scores using either an AI-based approach (dailyjobHelperAI.py) or a rules-based approach (dailyjobHelperMain.py).
+
+
 
 ## Project Architecture
 Below is a high-level overview of how the pieces fit together:
