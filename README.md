@@ -16,7 +16,11 @@ The files of note for anyone looking to replicate validate these results or run 
 
 Additionally, there are helper scripts to clean CSV data and compute confidence scores using either an AI-based approach (dailyjobHelperAI.py) or a rules-based approach (dailyjobHelperMain.py).
 
+## Assumptions
 
+For the SPY comparisons in a given period, the assumption is that SPY was purchased every single day during the period and then sold as many years later as the comparative stocks that would have been bought that day(either 2 years or 5 years later in most cases)
+
+TSLA was the only current S&P 500 company removed entirely from the analysis and recommendations because over some periods analyzed it appeared far too frequently on the biggest losers list and significantly skewed data. 
 
 ## Project Architecture
 Below is a high-level overview of how the pieces fit together:
