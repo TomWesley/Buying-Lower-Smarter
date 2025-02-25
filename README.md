@@ -3,9 +3,9 @@
 ## Introduction
 This repository is designed to:
 
-Run a daily job that offers a recommendation about buying the S&P 500s stocks with the largest daily losses by percentage. 
+- Run a daily job that offers a recommendation about buying the S&P 500s stocks with the largest daily losses by percentage. 
 
-Distribute that recommendation and a brief analysis of the calculation to a mail list.
+- Distribute that recommendation and a brief analysis of the calculation to a mail list.
 
 This document will go through the methodology for the model that runs this daily job and makes the recommendations.
 
