@@ -38,6 +38,8 @@ For the SPY comparisons in a given period, the assumption is that SPY was purcha
 
 2 and 5 year periods were used because they are common time frames for investors to expect return on their money and avoid any concern of short term capital gains. 
 
+Winning percentage simply means the percentage of stock purchases in that period that wound up making any amount of money. 
+
 TSLA was the only current S&P 500 company removed entirely from the analysis and recommendations because over some periods analyzed it appeared far too frequently on the biggest losers list and significantly skewed data. 
 
 ## Project Architecture
