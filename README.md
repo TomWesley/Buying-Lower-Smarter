@@ -18,15 +18,15 @@ Here is a tabular view of the results:
 
 <img width="1482" alt="StockAnalysis" src="https://github.com/user-attachments/assets/222c2f2e-57f2-4123-a660-a8e7aa8f684f" />
 
-As you can see from the table, buying the 5 biggest losers without any sort of additional methodology(see the rows where confidence score is 0) does in fact yield a higher average return than buying the S&P 500 as a whole. However, applying our model and a confidence value level greatly improves the results - more than doubling return gain over SPY. There is another added benefit to using the confidence levels we put together, it greatly simplifies the strategy to make it practical for a normal investor. Rather than buying 5 stocks each trading day, the average you would buy with a confidence score of 65 is just 1.9-2.3 stocks a week. Further raising the confidence level reduces that amount even further, but does introduce some obvious concerns as there are only a few stocks in our methodology even capable of fitting into that criteria(based on things like their industry and volume). Therefore, the recommendation at this time is the confidence score of 65 be utilized and this will be the value used in the daily(trading days only) email report arising from this model. 
+
+As you can see from the table, buying the 5 largest daily losers without any sort of additional methodology(see the rows where confidence score is 0) does in fact yield a higher average return than buying the S&P 500 as a whole. However, applying our model and a confidence value level greatly improves the results - more than doubling the return gain over SPY. There is another added benefit to using the confidence levels we put together, it greatly simplifies the strategy to make it practical for a normal investor. Instead of buying 5 stocks each trading day, the average you would buy with a confidence score of 65 is just 1.9-2.3 stocks a week. Further raising the confidence level continues to reduce that amount, but does introduce some obvious concerns as there are only a few stocks in our methodology even capable of fitting into that criteria(based on things like their industry and volume). Therefore, the recommendation at this time is the confidence score of 65 be utilized and this will be the value used in the daily(trading days only) email report arising from this model. 
 
 - One unexpected learning was that not that many of the S&P 500 stocks ever find themselves in the bottom 5 losers list. For the 15 year period from 1998-2023, only 92 of the 500 stocks showed up there.
-- There are many ways to improve this model further and there will be continued development on it to optimize the weights especially. 
+- There are many ways to continue to improve this model further and there will be continued development on it to optimize the weights especially. 
 
 ## File Hierarchy
 
 The files of note for anyone looking to replicate validate these results or run their own analysis are the following:
-
 
 Additionally, there are helper scripts to clean CSV data and compute confidence scores using either an AI-based approach (dailyjobHelperAI.py) or a rules-based approach (dailyjobHelperMain.py).
 
