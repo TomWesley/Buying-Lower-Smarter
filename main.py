@@ -99,6 +99,7 @@ def main():
     df_results['analysis_start_date'] = start_date.strftime('%Y-%m-%d')
     df_results['analysis_end_date']   = end_date.strftime('%Y-%m-%d')
 
+
 #GOOGLE SHEETS SECTION
     upload_df_to_sheets(
     df_results, 
