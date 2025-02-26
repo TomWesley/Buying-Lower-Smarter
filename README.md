@@ -1,13 +1,25 @@
-# StockAnalysisBiggestLosers
+# Stock Analysis: Biggest Losers
 
 ## Introduction
+
 This repository is designed to:
 
 - Run a daily job that offers a recommendation about buying the S&P 500s stocks with the largest daily losses by percentage. 
 
 - Distribute that recommendation and a brief analysis of the calculation to a mail list.
 
+This stock model answers a burning question many of us have had, what would happen if I simply bought the biggest loser in the stock market every day and held it? It's such a simple way to think about "buying the dip", but let's see what the data has to say. 
+
 This document will go through the methodology for the model that runs this daily job and makes the recommendations.
+
+## Results/Takeaways
+
+Here is a tabular view of the results:
+
+<img width="1482" alt="StockAnalysis" src="https://github.com/user-attachments/assets/222c2f2e-57f2-4123-a660-a8e7aa8f684f" />
+
+
+- One unexpected learning was that not that many of the S&P 500 stocks ever find themselves in the bottom 5 losers list. For the 15 year period from 1998-2013, only 91 of the 500 stocks showed up there. 
 
 ## File Hierarchy
 
