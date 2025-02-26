@@ -43,13 +43,14 @@ Below is a high-level overview of how the pieces fit together:
 
 **Confidence Scoring:**
 dailyjobHelperMain.py (uses a hardcoded set of weights and Yahoo Finance data).
-    The current weights are:
-    - "industry": 15,
-      "dividends": 15,
-      "reit": 10,
-      "severity_of_loss": 30,
-      "ranking": 10,
-      "volume": 20
+
+The current weights are:
+"industry": 15,
+            "dividends": 15,
+            "reit": 10,
+            "severity_of_loss": 30,
+            "ranking": 10,
+            "volume": 20
 
 **2-Year Return Calculation:** Calculating a forward 2-year return for each of these biggest losing stocks.
 Reporting & Analysis:
