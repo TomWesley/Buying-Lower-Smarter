@@ -1,4 +1,4 @@
-# Stock Analysis: Biggest Losers
+# Stock Analysis: S&P 500's Biggest Losers
 
 ## Introduction
 
