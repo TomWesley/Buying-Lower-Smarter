@@ -18,9 +18,10 @@ Here is a tabular view of the results:
 
 <img width="1482" alt="StockAnalysis" src="https://github.com/user-attachments/assets/222c2f2e-57f2-4123-a660-a8e7aa8f684f" />
 
-As you can see from the table, buying the 5 biggest losers without any sort of additional methodology does in fact yield a higher average return than buying the S&P 500 as a whole. However, applying our model and a confidence value level greatly improves the results - more than doubling the improvement on the strategy when compared to SPY. There is another added benefit to using the confidence levels we put together, it greatly simplifies the strategy to make it practical for a normal investor. Rather than buying 5 stocks each trading day, the average you would buy with a confidence score of 65 is just 1.9-2.3 stocks a week. Further raising the confidence level reduces that amount even further, but does introduce some obvious concerns as there are only a few stocks in our methodology even capable of fitting into that criteria(based on things like their industry and volume). 
+As you can see from the table, buying the 5 biggest losers without any sort of additional methodology(see the rows where confidence score is 0) does in fact yield a higher average return than buying the S&P 500 as a whole. However, applying our model and a confidence value level greatly improves the results - more than doubling return gain over SPY. There is another added benefit to using the confidence levels we put together, it greatly simplifies the strategy to make it practical for a normal investor. Rather than buying 5 stocks each trading day, the average you would buy with a confidence score of 65 is just 1.9-2.3 stocks a week. Further raising the confidence level reduces that amount even further, but does introduce some obvious concerns as there are only a few stocks in our methodology even capable of fitting into that criteria(based on things like their industry and volume). Therefore, the recommendation at this time is the confidence score of 65 be utilized and this will be the value used in the daily(trading days only) email report arising from this model. 
 
-- One unexpected learning was that not that many of the S&P 500 stocks ever find themselves in the bottom 5 losers list. For the 15 year period from 1998-2013, only 91 of the 500 stocks showed up there. 
+- One unexpected learning was that not that many of the S&P 500 stocks ever find themselves in the bottom 5 losers list. For the 15 year period from 1998-2023, only 92 of the 500 stocks showed up there.
+- There are many ways to improve this model further and there will be continued development on it to optimize the weights especially. 
 
 ## File Hierarchy
 
@@ -34,6 +35,8 @@ Additionally, there are helper scripts to clean CSV data and compute confidence 
 The period from January 1st, 2014 to January 1st, 2019 was used to run the initial analysis which helped identify the key factors and weights to apply to them. This was chosen because it avoided any noisy data from COVID-19. It should be noted that all relevant data concerning COVID is still included in the results section since the model is run up until the the end of 2023(to allow for 2 year returns to have come to fruition). 
 
 For the SPY comparisons in a given period, the assumption is that SPY was purchased every single day during the period and then sold as many years later as the comparative stock(s) that would have been bought that day(either 2 years or 5 years later in most cases)
+
+2 and 5 year periods were used because they are common time frames for investors to expect return on their money and avoid any concern of short term capital gains. 
 
 TSLA was the only current S&P 500 company removed entirely from the analysis and recommendations because over some periods analyzed it appeared far too frequently on the biggest losers list and significantly skewed data. 
 
