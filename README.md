@@ -10,7 +10,7 @@ This repository is designed to:
 
 The stock model answers a burning question many of us have had, what would happen if I simply bought the biggest loser in the stock market every day and held it? It's such a simple way to think about "buying the dip", but let's see what the data has to say. Since there are genuine risk concerns with buying some of the more obscure stocks on the market, we've isolated the analysis to just look at the S&P 500. 
 
-This document will go through the methodology and corresponding cod for the model that runs this daily job and makes the recommendations.
+This document will go through the methodology and corresponding code for the model that runs this daily job and makes the recommendations.
 
 ## Results/Takeaways
 
@@ -22,9 +22,19 @@ As you can see from the above table, buying the 5 largest daily losers without a
 - One unexpected learning was that not that many of the S&P 500 stocks ever find themselves in the bottom 5 losers list. For the 15 year period from 1998-2023, only 92 of the 500 stocks showed up there.
 - There are many ways to continue to improve this model further and there will be continued development on it to optimize the weights especially. 
 
-## Assumptions
+## Methodology
 
-- The period from January 1st, 2014 to January 1st, 2019 was used to run the initial analysis which helped identify the key factors and weights to apply to them. This was chosen because it avoided any noisy data from COVID-19. It should be noted that all relevant data concerning COVID is still included in the results section since the model is run up until the the end of 2023(to allow for 2 year returns to have come to fruition). 
+- The period from January 1st, 2014 to January 1st, 2019 was used to run the initial analysis which helped identify the key factors and weights to apply to them. This was chosen because it avoided any noisy data from COVID-19. It should be noted that all relevant data concerning COVID is still included in the results section since the model is run up until the the end of 2023(to allow for 2 year returns to have come to fruition).
+
+- The 2014-2019 data was exported to a Google sheet where trends were observed among the most successful returns for purchases made on those stocks. Some basic criteria emerged and were experimented on as factors to determine what makes a better 'buy'.
+
+- The current weights are:
+    - industry(Is it a technology or healthcare company?): 15%
+    - dividends(Is the dividend yield less than 1%): 15%
+    - reit(Is it not an REIT): 10%
+    - severity_of_loss(Did the stock lose more than 5%): 30%
+    - ranking(Favoring the biggest loser more than the 5th biggest): 10%
+    - volume(Is the stock volume greater than 30000000): 20
 
 - For the SPY comparisons in a given period, the assumption is that SPY was purchased every single day during the period and then sold as many years later as the comparative stock(s) that would have been bought that day(either 2 years or 5 years later in most cases)
 
@@ -44,13 +54,6 @@ Below is a high-level overview of how the pieces fit together:
 **Confidence Scoring:**
 dailyjobHelperMain.py (uses a hardcoded set of weights and Yahoo Finance data).
 
-The current weights are:
-- industry(Is it a technology or healthcare company?): 15%
-- dividends(Is the dividend yield less than 1%): 15%
-- reit(Is it not an REIT): 10%
-- severity_of_loss(Did the stock lose more than 5%): 30%
-- ranking(Favoring the biggest loser more than the 5th biggest): 10%
-- volume(Is the stock volume greater than 30000000): 20
 
 **2-Year Return Calculation:** Calculating a forward 2-year return for each of these biggest losing stocks.
 Reporting & Analysis:
