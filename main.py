@@ -11,8 +11,8 @@ import time
 # Set the precise time window
 #end_date = datetime.now() - timedelta(days=365*2)
 #start_date = end_date - timedelta(days=365*5)
-end_date = datetime(2023, 1, 1)
-start_date = datetime(2020, 1, 1)
+end_date = datetime(2020, 1, 1)
+start_date = datetime(1998, 1, 1)
 
 
 # # Make both start_date and end_date timezone-aware (UTC)
@@ -98,7 +98,6 @@ def main():
     # Add start and end dates as new columns
     df_results['analysis_start_date'] = start_date.strftime('%Y-%m-%d')
     df_results['analysis_end_date']   = end_date.strftime('%Y-%m-%d')
-
 
 #GOOGLE SHEETS SECTION
     upload_df_to_sheets(
