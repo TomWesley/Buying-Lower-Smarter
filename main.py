@@ -8,10 +8,11 @@ import pytz  # Import for timezone handling
 from gsheets_helper import upload_df_to_sheets
 import time
 
-# Set the precise 5-year window ending 2 years ago
-# Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=365*5)
-start_date = end_date - timedelta(days=365*20)
+# Set the precise time window
+#end_date = datetime.now() - timedelta(days=365*2)
+#start_date = end_date - timedelta(days=365*5)
+end_date = datetime(2023, 1, 1)
+start_date = datetime(2020, 1, 1)
 
 
 # # Make both start_date and end_date timezone-aware (UTC)
@@ -99,12 +100,12 @@ def main():
     df_results['analysis_end_date']   = end_date.strftime('%Y-%m-%d')
 
 #GOOGLE SHEETS SECTION
-#     upload_df_to_sheets(
-#     df_results, 
-#     sheet_name="Biggest Loser Results",
-#     creds_file=r"/Users/tomwesley/LocalGithubFiles/StockAnalysisBiggestLosers/stock-analysis-sheets-export-b83325cfadb5.json"
+    upload_df_to_sheets(
+    df_results, 
+    sheet_name="Biggest Loser Results",
+    creds_file=r"/Users/tomwesley/LocalGithubFiles/StockAnalysisBiggestLosers/stock-analysis-sheets-export-b83325cfadb5.json"
     
-# )
+)
 
 if __name__ == "__main__":
     main()
