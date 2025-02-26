@@ -44,7 +44,7 @@ Below is a high-level overview of how the pieces fit together:
 **Confidence Scoring:**
 dailyjobHelperMain.py (uses a hardcoded set of weights and Yahoo Finance data).
 
-The current weights are:
+- The current weights are:
 "industry": 15,
             "dividends": 15,
             "reit": 10,
