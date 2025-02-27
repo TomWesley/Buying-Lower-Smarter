@@ -8,44 +8,48 @@ import pytz  # Import for timezone handling
 import openai
 from pydantic import BaseModel, Field
 from yahooquery import Ticker
-
-
-
-from yahooquery import Ticker
+import csv
 
 def calculate_confidence_score(ticker: str, percentage_change: float, ranking: int) -> float:
     """
     Calculate a confidence score for a stock based on various factors.
     
-    Parameters:
-        ticker (str): The stock ticker.
-        percentage_change (float): The percentage change of the stock's price.
-        ranking (int): The rank of the stock in the biggest loser list (1 for biggest loser, etc.).
-    
     Returns:
         float: The confidence score between 0 and 100.
     """
     try:
-        # Fetch data from Yahoo Finance
-        stock = Ticker(ticker, asynchronous=True, timeout=10)
-        summary = stock.summary_detail.get(ticker, {})
-        asset_profile = stock.asset_profile.get(ticker, {})
-        key_stats = stock.key_stats
-        
-        # Extract data
-        industry = asset_profile.get("industry", "").lower()
-        dividend_yield = summary.get("dividendYield", 0) * 100  # Convert to percentage
-        ipo_year = key_stats[ticker].get('ipoYear')        
+        industry ="Unknown"
+        dividend_yield = 0
+        vol = 0
+        try:
+            with open("updated_stock_data.csv", mode='r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if row[0] == ticker:  # Match ticker
+                        industry = row[1]
+                        # Handle "N/A" in dividend yield and convert to float
+                        dividend_yield = float(row[2]) 
+                        vol = int(row[3]) 
+            
+                        if dividend_yield == "N/A":
+                            dividend_yield = 0.0
+                        
+                        
+            # If ticker not found in the CSV
+        except Exception as e:
+            print(f"Error reading CSV: {e}")
+
         # Define weights
+        #weights #1
         weights = {
-            "industry": 20,
-            "growth_vs_blue_chip": 15,
-            "dividends": 20,
-            "reit": 15,
-            "severity_of_loss": 20,
+            "industry": 15,
+            "dividends": 15,
+            "reit": 10,
+            "severity_of_loss": 30,
             "ranking": 10,
+            "volume": 20
         }
-        
+
         # Calculate score components
         score = 0
 
@@ -53,8 +57,6 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
         if "technology" in industry or "healthcare" in industry:
             score += weights["industry"]
 
-        if ipo_year and ipo_year > 2004:
-            score += weights["growth_vs_blue_chip"]
         # Dividend Yield: Is the dividend yield less than 1%?
         if dividend_yield < 1:
             score += weights["dividends"]
@@ -63,12 +65,17 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
         if "reit" not in industry:
             score += weights["reit"]
 
-        # Severity of Loss: Did the stock lose more than 5%?
+        #Severity of Loss: Did the stock lose more than 5%?
         if percentage_change < -5:  # Assuming percentage_change is negative for losses
             score += weights["severity_of_loss"]
+        else:
+            score += weights["severity_of_loss"]*((100-(5+percentage_change)*20)/100)
+        #Volume: Is the stock volume greater than 30000000?
+        if vol > 30000000:
+            score += weights["volume"]
 
         # Ranking: Based on position in biggest loser hierarchy
-        ranking_score = max(10 - (ranking - 1) * 2, 0)  # 10% for #1, 8% for #2, etc.
+        ranking_score = max(weights["ranking"] - (ranking - 1) * (weights["ranking"]/5), 0)  # 10% for #1, 8% for #2, etc.
         score += ranking_score
 
         # Return the confidence score
@@ -77,6 +84,7 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
     except Exception as e:
         print(f"Error calculating confidence score for {ticker}: {e}")
         return 0.0
+
 
 def get_biggest_losers(data, date):
     daily_changes = {}
@@ -91,7 +99,7 @@ def get_biggest_losers(data, date):
             
     # print(f"Average Loss Of Biggest Loser On Day of Theoretical Purchase: {percentage_changes_average:.2f}%")
     losers = sorted(daily_changes, key=daily_changes.get)[:5]
-    #AI SECTION
+ 
     print(losers)
     rank = 1
     for loser in losers:
@@ -99,6 +107,7 @@ def get_biggest_losers(data, date):
         # print(daily_changes[loser])
         confidence_score = calculate_confidence_score(loser, daily_changes[loser], rank)
         print(f"Confidence score for {loser}: {confidence_score}")
+        print(f"daily loss for {loser}: {daily_changes[loser]}")
         
         
         rank = rank + 1
