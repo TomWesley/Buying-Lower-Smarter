@@ -18,7 +18,7 @@
   <!-- Stage 1: Data Collection -->
   <rect x="50" y="70" width="600" height="70" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="1" />
   <text x="350" y="95" font-family="Arial, sans-serif" font-size="16" font-weight="bold" 
-        text-anchor="middle" fill="#01579b">1. Data Collection & Processing</text>
+        text-anchor="middle" fill="#01579b">1. Data Collection &amp; Processing</text>
   
   <rect x="70" y="110" width="120" height="20" rx="3" fill="#bbdefb" />
   <text x="130" y="125" font-family="Arial, sans-serif" font-size="12" 
@@ -56,7 +56,7 @@
   <!-- Stage 3: Output & Reporting -->
   <rect x="50" y="250" width="600" height="70" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="1" />
   <text x="350" y="275" font-family="Arial, sans-serif" font-size="16" font-weight="bold" 
-        text-anchor="middle" fill="#01579b">3. Output & Reporting</text>
+        text-anchor="middle" fill="#01579b">3. Output &amp; Reporting</text>
   
   <rect x="70" y="290" width="120" height="20" rx="3" fill="#bbdefb" />
   <text x="130" y="305" font-family="Arial, sans-serif" font-size="12" 
