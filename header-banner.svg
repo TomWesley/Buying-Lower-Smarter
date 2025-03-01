@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 150">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120">
   <!-- Background with gradient -->
   <defs>
     <linearGradient id="headerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -7,24 +7,24 @@
     </linearGradient>
   </defs>
   
-  <rect width="800" height="150" rx="10" fill="url(#headerGradient)" />
+  <rect width="800" height="120" rx="8" fill="url(#headerGradient)" />
   
   <!-- Stock chart line in background -->
-  <path d="M0,80 Q100,40 200,90 T400,50 T600,70 T800,30" 
-        stroke="#4fc3f7" stroke-width="3" fill="none" opacity="0.3" />
+  <path d="M0,60 Q100,30 200,70 T400,40 T600,60 T800,30" 
+        stroke="#4fc3f7" stroke-width="2" fill="none" opacity="0.3" />
   
   <!-- Title Text -->
-  <text x="40" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white">
+  <text x="40" y="50" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="white">
     Stock Analysis: S&P 500's Biggest Losers
   </text>
   
   <!-- Subtitle -->
-  <text x="40" y="95" font-family="Arial, sans-serif" font-size="16" fill="#b3e5fc">
+  <text x="40" y="80" font-family="Arial, sans-serif" font-size="14" fill="#b3e5fc">
     Intelligent analysis of market dips for optimized investment strategies
   </text>
   
   <!-- Stock chart icon -->
-  <g transform="translate(670, 50) scale(0.8)">
+  <g transform="translate(670, 35) scale(0.7)">
     <!-- Chart background -->
     <rect x="0" y="0" width="120" height="80" rx="5" fill="white" opacity="0.1" />
     
