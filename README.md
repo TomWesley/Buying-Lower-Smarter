@@ -1,5 +1,7 @@
 ![Stock Analysis Header](./header-banner.svg)
 
+
+
 ## Introduction
 
 This repository is designed to:
