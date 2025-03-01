@@ -1,4 +1,4 @@
-# Stock Analysis: S&P 500's Biggest Losers
+![Stock Analysis Header](./header-banner.svg)
 
 ## Introduction
 
@@ -12,6 +12,8 @@ The stock model answers a burning question many of us have had, what would happe
 
 This document will go through the methodology and corresponding code for the model that runs this daily job and makes the recommendations.
 
+![Section Divider](./section-divider.svg)
+
 ## Results/Takeaways
 
 <img width="1482" alt="StockAnalysis" src="https://github.com/user-attachments/assets/222c2f2e-57f2-4123-a660-a8e7aa8f684f" />
@@ -22,7 +24,11 @@ As you can see from the above table, buying the 5 largest daily losers without a
 - One unexpected learning was that not that many of the S&P 500 stocks ever find themselves in the bottom 5 losers list. For the 15 year period from 1998-2023, only 92 of the 500 stocks showed up there.
 - There are many ways to continue to improve this model further and there will be continued development on it to optimize the weights especially. 
 
+![Section Divider](./section-divider.svg)
+
 ## Methodology
+
+![Methodology Diagram](./methodology-diagram.svg)
 
 - The period from January 1st, 2014 to January 1st, 2019 was used to run the initial analysis which helped identify the key factors and weights to apply to them. This was chosen because it avoided any noisy data from COVID-19. It should be noted that all relevant data concerning COVID is still included in the results section since the model is run up until the the end of 2023(to allow for 2 year returns to have come to fruition).
 
@@ -44,7 +50,12 @@ As you can see from the above table, buying the 5 largest daily losers without a
 
 - TSLA was the only current S&P 500 company removed entirely from the analysis and recommendations because over some periods analyzed it appeared far too frequently on the biggest losers list and significantly skewed data. 
 
+![Section Divider](./section-divider.svg)
+
 ## Project Architecture
+
+![Project Architecture Diagram](./architecture-diagram.svg)
+
 Below is a high-level overview of how the pieces fit together:
 
 **Data Acquisition:** Scripts use yfinance (and in some cases yahooquery) to fetch stock data for a given date range.
@@ -173,7 +184,7 @@ Handles Google Sheets interactions:
 upload_df_to_sheets(df, sheet_name, creds_file, worksheet_name='Export_sheet'):
     - Converts a pandas DataFrame into a list of lists.
     - Clears the target worksheet.
-    - Updates the sheet’s cells.
+    - Updates the sheet's cells.
 
 Key Points:
 
@@ -200,28 +211,39 @@ Key Points:
     - By default, it attempts to fetch SPY for comparative analysis.
     - Produces daily biggest loser data across the entire date range.
 
-
+![Section Divider](./section-divider.svg)
 
 ## Setup & Installation
+
+![Setup and Installation Icons](./setup-icons.svg)
+
 1. **Clone the Repository**
 
+    ```bash
     git clone https://github.com/your-username/StockAnalysisBiggestLosers.git
     cd StockAnalysisBiggestLosers
+    ```
 
 2. **Create a Virtual Environment (optional but recommended)**
 
+    ```bash
     python -m venv venv
     source venv/bin/activate  # On macOS/Linux
+    ```
 
-# or
+    # or
 
+    ```bash
     venv\Scripts\activate  # On Windows
+    ```
 
 3. **Install Required Python Dependencies**
 
+    ```bash
     pip install -r requirements.txt
+    ```
 
-    (If a requirements.txt doesn’t exist yet, you can generate one by listing: pandas, yfinance, tqdm, pytz, openai, pydantic, gspread, oauth2client, yahooquery.)
+    (If a requirements.txt doesn't exist yet, you can generate one by listing: pandas, yfinance, tqdm, pytz, openai, pydantic, gspread, oauth2client, yahooquery.)
 
 4. **Set Up Google Service Account Credentials (for Sheets upload):**
 
@@ -229,12 +251,16 @@ Key Points:
     - Place it in a secure location, and note its path.
     - Update paths in main.py or dailyjob.py where you see references to creds_file.
 
-5. (Optional) Set OpenAI Key (for scripts using GPT):
+5. **(Optional) Set OpenAI Key (for scripts using GPT):**
 
     Export an environment variable:
 
+    ```bash
     export OPENAI_API_KEY="sk-..."
+    ```
     or place your key in the code (not recommended for production).
+
+![Section Divider](./section-divider.svg)
 
 ## Usage
 
@@ -243,7 +269,9 @@ Key Points:
 2. Ensure currentSANDP.csv is up to date.
 3. Run:
 
+    ```bash
     python main.py
+    ```
 
 4. Once completed, it will:
     - Fetch the historical stock data for each symbol.
@@ -255,15 +283,17 @@ Key Points:
 ### Running dailyjob.py
 If you want a short-range, daily process:
 
-    1. Check dailyjob.py’s start_date and end_date logic.
+1. Check dailyjob.py's start_date and end_date logic.
 
-    2. Confirm or edit the references to dailyjobHelperMain.py or dailyjobHelperAI.py.
+2. Confirm or edit the references to dailyjobHelperMain.py or dailyjobHelperAI.py.
 
-    3. Run:
+3. Run:
 
-        python dailyjob.py
+    ```bash
+    python dailyjob.py
+    ```
 
-    4. The script can be scheduled (using cron, Task Scheduler, etc.) to execute daily.
+4. The script can be scheduled (using cron, Task Scheduler, etc.) to execute daily.
 
 ### Other Utilities
 - csvCleaner.py:
@@ -272,4 +302,4 @@ If you want a short-range, daily process:
 
 - dailyjobHelperAI.py vs. dailyjobHelperMain.py:
 
-    - Swap the import in dailyjob.py to decide which “helper” approach you prefer (AI-based vs. rules-based scoring).
+    - Swap the import in dailyjob.py to decide which "helper" approach you prefer (AI-based vs. rules-based scoring).
