@@ -54,9 +54,10 @@ As you can see from the above table, buying the 5 largest daily losers without a
 
 ## Project Architecture
 
+
 ![Project Architecture Diagram](./architecture-diagram.svg)
 
-Below is a high-level overview of how the pieces fit together:
+
 
 **Data Acquisition:** Scripts use yfinance (and in some cases yahooquery) to fetch stock data for a given date range.
 
