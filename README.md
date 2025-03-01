@@ -19,7 +19,6 @@ The stock model answers a burning question many of us have had, what would happe
 
 This document will go through the methodology and corresponding code for the model that runs this daily job and makes the recommendations.
 
-![Section Divider](./section-divider.svg)
 
 ## Results/Takeaways
 
@@ -31,7 +30,6 @@ As you can see from the above table, buying the 5 largest daily losers without a
 - One unexpected learning was that not that many of the S&P 500 stocks ever find themselves in the bottom 5 losers list. For the 15 year period from 1998-2023, only 92 of the 500 stocks showed up there.
 - There are many ways to continue to improve this model further and there will be continued development on it to optimize the weights especially. 
 
-![Section Divider](./section-divider.svg)
 
 ## Methodology
 
@@ -57,7 +55,6 @@ As you can see from the above table, buying the 5 largest daily losers without a
 
 - TSLA was the only current S&P 500 company removed entirely from the analysis and recommendations because over some periods analyzed it appeared far too frequently on the biggest losers list and significantly skewed data. 
 
-![Section Divider](./section-divider.svg)
 
 ## Project Architecture
 
@@ -219,7 +216,6 @@ Key Points:
     - By default, it attempts to fetch SPY for comparative analysis.
     - Produces daily biggest loser data across the entire date range.
 
-![Section Divider](./section-divider.svg)
 
 ## Setup & Installation
 
@@ -268,7 +264,6 @@ Key Points:
     ```
     or place your key in the code (not recommended for production).
 
-![Section Divider](./section-divider.svg)
 
 ## Usage
 
