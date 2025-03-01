@@ -33,8 +33,6 @@ As you can see from the above table, buying the 5 largest daily losers without a
 
 ## Methodology
 
-![Methodology Diagram](./methodology-diagram.svg)
-
 - The period from January 1st, 2014 to January 1st, 2019 was used to run the initial analysis which helped identify the key factors and weights to apply to them. This was chosen because it avoided any noisy data from COVID-19. It should be noted that all relevant data concerning COVID is still included in the results section since the model is run up until the the end of 2023(to allow for 2 year returns to have come to fruition).
 
 - The 2014-2019 data was exported to a Google sheet where trends were observed among the most successful returns for purchases made on those stocks. Some basic criteria emerged and were experimented on as factors to determine what makes a better 'buy'.
