@@ -45,7 +45,7 @@ As you can see from the above table, buying the 5 largest daily losers without a
     - ranking(Favoring the biggest loser more than the 5th biggest): 10%
     - volume(Is the stock volume greater than 30000000): 20
 
-- For the SPY comparisons in a given period, the assumption is that SPY was purchased every single day during the period and then sold as many years later as the comparative stock(s) that would have been bought that day(either 2 years or 5 years later in most cases)
+- For the SPY comparisons in a given period, the assumption is that SPY was purchased every single day during the period and then sold as many years later as the comparative stock(s) that would have been bought that day(either 2 years or 5 years later in most cases).
 
 - 2 and 5 year periods were used because they are common time frames for investors to expect return on their money and avoid any concern of short term capital gains. 
 
