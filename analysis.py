@@ -118,7 +118,7 @@ def get_biggest_losers(data, date):
         confidence_score = calculate_confidence_score(loser, daily_changes[loser], rank)
         
         rank = rank + 1
-        if(confidence_score < 65):
+        if(confidence_score < 80):
             storevalues.append(loser)
                 
         
