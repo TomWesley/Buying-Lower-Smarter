@@ -11,7 +11,7 @@ import time
 # Set the precise time window
 #end_date = datetime.now() - timedelta(days=365*2)
 #start_date = end_date - timedelta(days=365*5)
-end_date = datetime(2020, 1, 1)
+end_date = datetime(2023, 1, 1)
 start_date = datetime(1998, 1, 1)
 
 
@@ -24,7 +24,7 @@ start_date = ny_tz.localize(start_date.replace(hour=0, minute=0, second=0, micro
 def main():
     
     #Will update the SANDP symbols over time as the list changes 
-    sp500_symbols = pd.read_csv('currentSANDP.csv', header=None).squeeze().tolist()
+    sp500_symbols = pd.read_csv('SANDPNoRepeats.csv', header=None).squeeze().tolist()
     data = {}
     for symbol in sp500_symbols:
         try:

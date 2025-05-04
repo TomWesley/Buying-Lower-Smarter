@@ -7,11 +7,11 @@ from datetime import timedelta
 from tqdm import tqdm
 from datetime import datetime
 import pytz  # Import for timezone handling
-from gsheets_helper import upload_df_to_sheets
+# from gsheets_helper import upload_df_to_sheets
 
 # Set the precise 5-year window ending 2 years ago
 # Set the precise 5-year window ending 2 years ago
-end_date = datetime.now() - timedelta(days=1)
+end_date = datetime.now() - timedelta(days=0)
 start_date = end_date - timedelta(days=1)
 
 
@@ -25,7 +25,7 @@ def main():
     
     #May need the link to the current symbols for the daily listener. 
     #sp500_symbols = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]['Symbol'].tolist()
-    sp500_symbols = pd.read_csv('currentSANDP.csv', header=None).squeeze().tolist()
+    sp500_symbols = pd.read_csv('SANDPNoRepeats.csv', header=None).squeeze().tolist()
     data = {}
     for symbol in sp500_symbols:
         try:

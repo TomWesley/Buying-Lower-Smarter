@@ -1,6 +1,7 @@
 import csv
 import time
-from yahooquery import Ticker
+import yfinance as yf
+import pandas as pd
 
 def fetch_stock_info(tickers, output_file, delay=2):
     # Create a list to store stock data
@@ -10,15 +11,17 @@ def fetch_stock_info(tickers, output_file, delay=2):
     for ticker in tickers:
         try:
             # Fetch data for the current ticker
-            ticker_obj = Ticker(ticker)
-            summary = ticker_obj.summary_profile.get(ticker, {})
-            quote = ticker_obj.quotes.get(ticker, {})
-            stats = ticker_obj.key_stats.get(ticker, {})
-
+            ticker_obj = yf.Ticker(ticker)
+            
+            # Get the info dictionary
+            info = ticker_obj.info
+            
             # Extract relevant fields
-            industry = summary.get('industry', 'N/A')
-            dividend_yield = quote.get('dividendYield', 'N/A')
-            volume = quote.get('regularMarketVolume', 'N/A')
+            industry = info.get('industry', 'N/A')
+            dividend_yield = info.get('dividendYield', 'N/A')
+            if dividend_yield != 'N/A':
+                dividend_yield = round(dividend_yield * 100, 2)  # Convert to percentage
+            volume = info.get('volume', 'N/A')
             
             # Add the stock's data to the list
             stock_data.append({
@@ -51,8 +54,8 @@ def fetch_stock_info(tickers, output_file, delay=2):
     print(f"Data written to {output_file}")
 
 # Read tickers from input CSV (single row)
-input_file = 'currentSANDP.csv'
-output_file = 'updated_stock_data.csv'
+input_file = 'SANDPNoRepeats.csv'
+output_file = 'fixedUp.csv'
 
 tickers = []
 with open(input_file, mode='r') as file:

@@ -5,8 +5,6 @@ from datetime import timedelta
 from tqdm import tqdm
 from datetime import datetime
 import pytz  # Import for timezone handling
-import openai
-from pydantic import BaseModel, Field
 from yahooquery import Ticker
 import csv
 
@@ -22,7 +20,7 @@ def calculate_confidence_score(ticker: str, percentage_change: float, ranking: i
         dividend_yield = 0
         vol = 0
         try:
-            with open("updated_stock_data.csv", mode='r') as file:
+            with open("fixedUp.csv", mode='r') as file:
                 reader = csv.reader(file)
                 for row in reader:
                     if row[0] == ticker:  # Match ticker
