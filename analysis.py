@@ -122,7 +122,7 @@ def get_biggest_losers(data, date):
         #     if(confidence_score<80):
         #         print(loser + "SCORING")
         #         print(confidence_score)
-        if(confidence_score < 80):
+        if(confidence_score < 0):
 
             storevalues.append(loser)
                 
