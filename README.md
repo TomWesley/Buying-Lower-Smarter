@@ -21,8 +21,7 @@ This document will go through the methodology and corresponding code for the mod
 
 
 ## Results/Takeaways
-
-<img width="1482" alt="StockAnalysis" src="https://github.com/user-attachments/assets/222c2f2e-57f2-4123-a660-a8e7aa8f684f" />
+<img width="1328" alt="Screenshot 2025-05-16 at 6 53 04 PM" src="https://github.com/user-attachments/assets/cf58f187-9eee-41b3-a72d-f4da280e1c62" />
 
 
 As you can see from the above table, buying the 5 largest daily losers without any sort of additional methodology(see the rows where confidence score is 0) does in fact yield a higher average return than buying the S&P 500 as a whole. However, applying our model and a confidence value level greatly improves the results - more than doubling the return gain over SPY. There is another added benefit to using the confidence levels we put together, it greatly simplifies the strategy to make it practical for a normal investor. Instead of buying 5 stocks each trading day, the average you would buy with a confidence score of 65 is just 1.9-2.3 stocks a week. Further raising the confidence level continues to reduce that amount, but does introduce some obvious concerns as there are only a few stocks in our methodology even capable of fitting into that criteria(based on things like their industry and volume). Therefore, the recommendation at this time is a confidence score of 65 be utilized and this will be the value used for the daily(trading days only) email report arising from this model. 
