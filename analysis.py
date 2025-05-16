@@ -137,7 +137,7 @@ def calculate_return(data, symbol, start_date, pc):
         
         
         # Calculate target end date (2 or 5 years after start_date)
-        target_end_date = start_date + timedelta(days=365*2)
+        target_end_date = start_date + timedelta(days=365*5)
         
         # Ensure the target end date is within the available data range
         max_end_date = data[symbol].index[-1]  # Last available date in the dataset
@@ -192,7 +192,7 @@ def analyze_results(df_results, sd, ed):
         for i in range(len(spy_data)):
             start_price = spy_data['Close'].iloc[i]
             start_date = spy_data.index[i]
-            end_date = start_date + timedelta(days=365*2)
+            end_date = start_date + timedelta(days=365*5)
 
             # Find the closest available date within the 2-year window
             end_prices = spy_data[spy_data.index >= end_date]['Close']
