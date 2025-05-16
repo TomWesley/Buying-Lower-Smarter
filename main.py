@@ -11,7 +11,7 @@ import time
 # Set the precise time window
 #end_date = datetime.now() - timedelta(days=365*2)
 #start_date = end_date - timedelta(days=365*5)
-end_date = datetime(2020, 1, 1)
+end_date = datetime(2014, 1, 1)
 start_date = datetime(1998, 1, 1)
 
 

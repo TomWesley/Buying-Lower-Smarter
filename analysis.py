@@ -118,10 +118,7 @@ def get_biggest_losers(data, date):
         confidence_score = calculate_confidence_score(loser, daily_changes[loser], rank)
         
         rank = rank + 1
-        # if(confidence_score > 65):
-        #     if(confidence_score<80):
-        #         print(loser + "SCORING")
-        #         print(confidence_score)
+        
         if(confidence_score < 80):
 
             storevalues.append(loser)
@@ -140,7 +137,7 @@ def calculate_return(data, symbol, start_date, pc):
         
         
         # Calculate target end date (2 or 5 years after start_date)
-        target_end_date = start_date + timedelta(days=365*5)
+        target_end_date = start_date + timedelta(days=365*2)
         
         # Ensure the target end date is within the available data range
         max_end_date = data[symbol].index[-1]  # Last available date in the dataset
@@ -195,7 +192,7 @@ def analyze_results(df_results, sd, ed):
         for i in range(len(spy_data)):
             start_price = spy_data['Close'].iloc[i]
             start_date = spy_data.index[i]
-            end_date = start_date + timedelta(days=365*5)
+            end_date = start_date + timedelta(days=365*2)
 
             # Find the closest available date within the 2-year window
             end_prices = spy_data[spy_data.index >= end_date]['Close']
