@@ -1,0 +1,50 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# GCP/Google credentials
+*.json
+!package.json
+!package-lock.json
+stock-analysis-sheets-export-*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.venv/
+env/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Node
+node_modules/
+dist/
+.npm
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build
+build/
+*.egg-info/
