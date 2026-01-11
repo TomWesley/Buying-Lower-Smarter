@@ -139,6 +139,35 @@ def run_training_background(
                 run.progress = 100
                 run.completed_at = datetime.utcnow()
 
+            # Auto-create a scoring model from the discovered formula
+            model_created = False
+            if results.get('analysis'):
+                # Use 2Y analysis if available, otherwise 5Y
+                analysis_key = '2y' if '2y' in results['analysis'] else '5y' if '5y' in results['analysis'] else None
+                if analysis_key and results['analysis'][analysis_key].get('suggested_weights'):
+                    suggested = results['analysis'][analysis_key]['suggested_weights']
+                    formula = suggested.get('formula', {})
+
+                    if formula:
+                        # Count existing models to generate name
+                        model_count = db.query(ScoringModel).count()
+                        model_name = f"Model {model_count + 1} (Training Run #{run_id})"
+
+                        # Get performance stats if available
+                        avg_return = results['analysis'][analysis_key].get('avg_return')
+                        win_rate = results['analysis'][analysis_key].get('win_rate')
+
+                        # Create the model
+                        new_model = ScoringModel(
+                            name=model_name,
+                            training_run_id=run_id,
+                            formula=json.dumps(formula),
+                            avg_return=avg_return,
+                            win_rate=win_rate,
+                        )
+                        db.add(new_model)
+                        model_created = True
+
             db.commit()
         finally:
             db.close()
@@ -146,7 +175,7 @@ def run_training_background(
         # Keep results in memory for immediate access
         running_jobs[run_id]['status'] = 'completed'
         running_jobs[run_id]['progress'] = 100
-        running_jobs[run_id]['message'] = 'Complete'
+        running_jobs[run_id]['message'] = 'Complete - Model created' if model_created else 'Complete'
         running_jobs[run_id]['results'] = results
 
     except Exception as e:

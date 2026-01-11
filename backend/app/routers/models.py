@@ -4,7 +4,8 @@ Scoring Models API endpoints for saving and managing scoring configurations.
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
+import json
 
 from app.db.database import get_sync_db, init_db_sync
 from app.db.models import ScoringModel
@@ -15,7 +16,8 @@ router = APIRouter()
 
 class CreateModelRequest(BaseModel):
     name: str
-    weights: Dict[str, float]
+    formula: Optional[Dict[str, Any]] = None  # New formula-based structure
+    weights: Optional[Dict[str, float]] = None  # Legacy weights
     threshold: float = 65.0
     training_run_id: Optional[int] = None
     avg_return: Optional[float] = None
@@ -25,7 +27,8 @@ class CreateModelRequest(BaseModel):
 class ModelResponse(BaseModel):
     id: int
     name: str
-    weights: Dict[str, float]
+    formula: Optional[Dict[str, Any]] = None
+    weights: Optional[Dict[str, float]] = None
     threshold: float
     training_run_id: Optional[int]
     avg_return: Optional[float]
@@ -33,31 +36,51 @@ class ModelResponse(BaseModel):
     created_at: datetime
 
 
-@router.get("/", response_model=List[ModelResponse])
+def parse_model(m: ScoringModel) -> ModelResponse:
+    """Parse a ScoringModel into a ModelResponse"""
+    formula = None
+    weights = None
+
+    # Try to parse formula first (new format)
+    if m.formula:
+        try:
+            formula = json.loads(m.formula)
+        except:
+            pass
+
+    # Fall back to legacy weights
+    if m.weights:
+        try:
+            weights = weights_from_json(m.weights)
+        except:
+            pass
+
+    return ModelResponse(
+        id=m.id,
+        name=m.name,
+        formula=formula,
+        weights=weights,
+        threshold=m.threshold or 65.0,
+        training_run_id=m.training_run_id,
+        avg_return=m.avg_return,
+        win_rate=m.win_rate,
+        created_at=m.created_at
+    )
+
+
+@router.get("/")
 async def list_models():
     """List all saved scoring models"""
     init_db_sync()
     db = get_sync_db()
     try:
         models = db.query(ScoringModel).order_by(ScoringModel.created_at.desc()).all()
-        return [
-            ModelResponse(
-                id=m.id,
-                name=m.name,
-                weights=weights_from_json(m.weights),
-                threshold=m.threshold,
-                training_run_id=m.training_run_id,
-                avg_return=m.avg_return,
-                win_rate=m.win_rate,
-                created_at=m.created_at
-            )
-            for m in models
-        ]
+        return [parse_model(m) for m in models]
     finally:
         db.close()
 
 
-@router.post("/", response_model=ModelResponse)
+@router.post("/")
 async def create_model(request: CreateModelRequest):
     """Save a new scoring model"""
     init_db_sync()
@@ -65,7 +88,8 @@ async def create_model(request: CreateModelRequest):
     try:
         model = ScoringModel(
             name=request.name,
-            weights=weights_to_json(request.weights),
+            formula=json.dumps(request.formula) if request.formula else None,
+            weights=weights_to_json(request.weights) if request.weights else None,
             threshold=request.threshold,
             training_run_id=request.training_run_id,
             avg_return=request.avg_return,
@@ -75,21 +99,12 @@ async def create_model(request: CreateModelRequest):
         db.commit()
         db.refresh(model)
 
-        return ModelResponse(
-            id=model.id,
-            name=model.name,
-            weights=weights_from_json(model.weights),
-            threshold=model.threshold,
-            training_run_id=model.training_run_id,
-            avg_return=model.avg_return,
-            win_rate=model.win_rate,
-            created_at=model.created_at
-        )
+        return parse_model(model)
     finally:
         db.close()
 
 
-@router.get("/{model_id}", response_model=ModelResponse)
+@router.get("/{model_id}")
 async def get_model(model_id: int):
     """Get a specific scoring model"""
     db = get_sync_db()
@@ -98,16 +113,7 @@ async def get_model(model_id: int):
         if not model:
             raise HTTPException(status_code=404, detail="Model not found")
 
-        return ModelResponse(
-            id=model.id,
-            name=model.name,
-            weights=weights_from_json(model.weights),
-            threshold=model.threshold,
-            training_run_id=model.training_run_id,
-            avg_return=model.avg_return,
-            win_rate=model.win_rate,
-            created_at=model.created_at
-        )
+        return parse_model(model)
     finally:
         db.close()
 

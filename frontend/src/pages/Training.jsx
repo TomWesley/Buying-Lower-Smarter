@@ -364,14 +364,55 @@ function Training() {
             </div>
           )}
 
-          {/* Suggested Weights */}
+          {/* Discovered Formula - Winner vs Loser Analysis */}
           {results.analysis['2y']?.suggested_weights && (
             <div className="bg-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">Suggested Weights (Based on 2Y Analysis)</h3>
-              <FactorSliders
-                weights={results.analysis['2y'].suggested_weights}
-                readOnly
-              />
+              <h3 className="text-lg font-semibold mb-4">Discovered Winning Formula (2Y Returns)</h3>
+
+              {/* Thresholds info */}
+              {results.analysis['2y'].suggested_weights.thresholds && (
+                <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
+                  <div className="flex flex-wrap gap-4 text-sm">
+                    <div>
+                      <span className="text-green-400 font-medium">Winners (top 25%)</span>: {results.analysis['2y'].suggested_weights.thresholds.winners_count} picks with ≥{results.analysis['2y'].suggested_weights.thresholds.top_25_pct_return}% return
+                    </div>
+                    <div>
+                      <span className="text-red-400 font-medium">Losers (bottom 25%)</span>: {results.analysis['2y'].suggested_weights.thresholds.losers_count} picks with ≤{results.analysis['2y'].suggested_weights.thresholds.bottom_25_pct_return}% return
+                    </div>
+                    <div className="text-gray-400">
+                      Tested {results.analysis['2y'].suggested_weights.total_factors_tested} factors → Found {results.analysis['2y'].suggested_weights.significant_factors_count} significant (≥5% difference)
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* The discovered formula */}
+              {results.analysis['2y'].suggested_weights.formula && (
+                <>
+                  <h4 className="text-md font-medium mb-3">Significant Factors (sorted by impact)</h4>
+                  <div className="space-y-2 mb-6">
+                    {Object.entries(results.analysis['2y'].suggested_weights.formula).map(([factor, data]) => (
+                      <FormulaFactorRow key={factor} factor={factor} data={data} />
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* All factors tested (collapsible) */}
+              {results.analysis['2y'].suggested_weights.all_factors_tested && (
+                <details className="mt-6">
+                  <summary className="cursor-pointer text-sm text-gray-400 hover:text-gray-300">
+                    View all {results.analysis['2y'].suggested_weights.total_factors_tested} factors tested
+                  </summary>
+                  <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {Object.entries(results.analysis['2y'].suggested_weights.all_factors_tested)
+                      .sort((a, b) => b[1].abs_difference - a[1].abs_difference)
+                      .map(([factor, data]) => (
+                        <AllFactorCard key={factor} factor={factor} data={data} />
+                      ))}
+                  </div>
+                </details>
+              )}
             </div>
           )}
 
@@ -426,6 +467,72 @@ function FactorCard({ factor, data }) {
       </div>
       <div className="text-xs text-gray-400 mt-1">p-value: {data.p_value}</div>
       {data.note && <div className="text-xs text-gray-500 mt-1">{data.note}</div>}
+    </div>
+  );
+}
+
+function FormulaFactorRow({ factor, data }) {
+  const formatFactor = (f) => f.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+  const formatCategory = (c) => c.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+
+  const isPositive = data.condition === 'HAS';
+
+  return (
+    <div className="flex items-center gap-4 p-3 bg-gray-700/50 rounded-lg">
+      {/* Weight bar */}
+      <div className="w-16 text-right">
+        <span className="text-lg font-bold text-blue-400">{data.weight}%</span>
+      </div>
+
+      {/* Category tag */}
+      <div className="px-2 py-1 rounded text-xs bg-gray-600 text-gray-300 w-24 text-center">
+        {formatCategory(data.category || 'other')}
+      </div>
+
+      {/* Condition indicator */}
+      <div className={`px-2 py-1 rounded text-xs font-medium ${isPositive ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+        {isPositive ? 'HAS' : 'NOT'}
+      </div>
+
+      {/* Factor name */}
+      <div className="flex-1">
+        <span className="font-medium">{formatFactor(factor)}</span>
+        <span className="text-gray-400 text-sm ml-2">
+          (Winners: {data.winners_pct}% vs Losers: {data.losers_pct}%)
+        </span>
+      </div>
+
+      {/* Difference */}
+      <div className={`text-sm font-bold ${data.difference > 0 ? 'text-green-400' : 'text-red-400'}`}>
+        {data.difference > 0 ? '+' : ''}{data.difference}%
+      </div>
+    </div>
+  );
+}
+
+function AllFactorCard({ factor, data }) {
+  const formatFactor = (f) => f.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+
+  const isSignificant = data.abs_difference >= 5;
+  const favorsWinners = data.favors_winners;
+
+  return (
+    <div className={`p-3 rounded-lg border text-sm ${
+      isSignificant
+        ? 'border-blue-500/30 bg-blue-500/5'
+        : 'border-gray-700 bg-gray-800/50'
+    }`}>
+      <div className="font-medium">{formatFactor(factor)}</div>
+      <div className="mt-2 flex justify-between text-xs">
+        <span className="text-green-400">Win: {data.winners_pct}%</span>
+        <span className="text-red-400">Lose: {data.losers_pct}%</span>
+      </div>
+      <div className={`mt-1 text-xs font-bold ${
+        data.raw_difference > 0 ? 'text-green-400' : data.raw_difference < 0 ? 'text-red-400' : 'text-gray-400'
+      }`}>
+        {data.raw_difference > 0 ? '+' : ''}{data.raw_difference}% diff
+        {isSignificant && <span className="ml-1 text-blue-400">★</span>}
+      </div>
     </div>
   );
 }

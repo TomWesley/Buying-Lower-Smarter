@@ -60,6 +60,10 @@ class ScoringModel(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
     training_run_id = Column(Integer, ForeignKey("analysis_runs.id"), nullable=True)
+    # Full formula JSON with structure:
+    # {"factor_name": {"weight": 25.5, "condition": "HAS"/"NOT", "category": "dividend", ...}, ...}
+    formula = Column(Text)
+    # Legacy weights field for backwards compatibility
     weights = Column(Text)  # JSON string: {"industry": 15, "volume": 20, ...}
     threshold = Column(Float, default=65.0)
     avg_return = Column(Float)

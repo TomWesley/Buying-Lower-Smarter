@@ -325,53 +325,176 @@ def analyze_factors(df: pd.DataFrame, return_col: str) -> Dict[str, Any]:
     return factors
 
 
-def suggest_optimal_weights(df: pd.DataFrame, return_col: str) -> Dict[str, float]:
+def suggest_optimal_weights(df: pd.DataFrame, return_col: str) -> Dict[str, Any]:
     """
-    Suggest optimal weights based on factor importance.
-    Uses absolute correlation values to determine relative importance.
+    Discover optimal weights by comparing TOP performers vs BOTTOM performers.
+
+    Approach:
+    1. Split picks into winners (top 25% by return) and losers (bottom 25%)
+    2. Test MANY potential factors - both directions (e.g., high AND low dividend)
+    3. Use ABSOLUTE difference - if losers have more of something, flip the indicator
+    4. Keep only the BEST factor from each category (no double-counting)
+    5. Weight by differentiation strength
     """
-    returns = df[return_col].values
+    returns = df[return_col]
 
-    # Calculate feature values
-    features = {}
+    # Define winners (top 25%) and losers (bottom 25%)
+    top_threshold = returns.quantile(0.75)
+    bottom_threshold = returns.quantile(0.25)
 
-    # Tech/Healthcare
-    features['industry'] = df['industry'].str.contains('technology|healthcare|software', case=False, na=False).astype(float).values
+    winners = df[returns >= top_threshold]
+    losers = df[returns <= bottom_threshold]
 
-    # Low dividend
-    features['dividends'] = (df['dividend_yield'] < 1).astype(float).values
+    # Define factors GROUPED BY CATEGORY
+    # We'll only keep the best factor from each category
+    factor_categories = {
+        'dividend': {
+            'no_dividend': lambda x: x['dividend_yield'] == 0,
+            'low_dividend': lambda x: (x['dividend_yield'] > 0) & (x['dividend_yield'] < 1),
+            'medium_dividend': lambda x: (x['dividend_yield'] >= 1) & (x['dividend_yield'] < 3),
+            'high_dividend': lambda x: x['dividend_yield'] >= 3,
+        },
+        'volume': {
+            'very_high_volume': lambda x: x['volume'] > 50_000_000,
+            'high_volume': lambda x: (x['volume'] > 20_000_000) & (x['volume'] <= 50_000_000),
+            'medium_volume': lambda x: (x['volume'] > 5_000_000) & (x['volume'] <= 20_000_000),
+            'low_volume': lambda x: x['volume'] <= 5_000_000,
+        },
+        'loss_severity': {
+            'extreme_loss': lambda x: x['daily_loss_pct'] < -10,
+            'severe_loss': lambda x: (x['daily_loss_pct'] < -5) & (x['daily_loss_pct'] >= -10),
+            'moderate_loss': lambda x: (x['daily_loss_pct'] < -3) & (x['daily_loss_pct'] >= -5),
+            'mild_loss': lambda x: x['daily_loss_pct'] >= -3,
+        },
+        'ranking': {
+            'rank_1': lambda x: x['ranking'] == 1,
+            'rank_2': lambda x: x['ranking'] == 2,
+            'rank_3': lambda x: x['ranking'] == 3,
+            'rank_4': lambda x: x['ranking'] == 4,
+            'rank_5': lambda x: x['ranking'] == 5,
+            'top_2_loser': lambda x: x['ranking'] <= 2,
+            'bottom_2_loser': lambda x: x['ranking'] >= 4,
+        },
+        # Industries are independent - each can be in the formula
+        'tech_sector': {
+            'tech_sector': lambda x: x['industry'].str.contains('technology|software|semiconductor', case=False, na=False),
+        },
+        'healthcare_sector': {
+            'healthcare_sector': lambda x: x['industry'].str.contains('healthcare|pharmaceutical|biotech', case=False, na=False),
+        },
+        'financial_sector': {
+            'financial_sector': lambda x: x['industry'].str.contains('financial|bank|insurance', case=False, na=False),
+        },
+        'consumer_sector': {
+            'consumer_sector': lambda x: x['industry'].str.contains('consumer|retail', case=False, na=False),
+        },
+        'energy_sector': {
+            'energy_sector': lambda x: x['industry'].str.contains('energy|oil|gas', case=False, na=False),
+        },
+        'industrial_sector': {
+            'industrial_sector': lambda x: x['industry'].str.contains('industrial|manufacturing', case=False, na=False),
+        },
+        'reit': {
+            'is_reit': lambda x: x['industry'].str.contains('reit|real estate', case=False, na=False),
+        },
+        'communications': {
+            'communications': lambda x: x['industry'].str.contains('communication|telecom|media', case=False, na=False),
+        },
+        'utilities': {
+            'utilities': lambda x: x['industry'].str.contains('utilities|utility', case=False, na=False),
+        },
+    }
 
-    # Non-REIT
-    features['reit'] = (~df['industry'].str.contains('reit', case=False, na=False)).astype(float).values
+    # Calculate differentiation for ALL factors
+    all_factors = {}
 
-    # Severe loss (>5%)
-    features['severity_of_loss'] = (df['daily_loss_pct'] < -5).astype(float).values
+    for category, factors in factor_categories.items():
+        for name, condition in factors.items():
+            try:
+                winners_with = condition(winners).mean() * 100
+                losers_with = condition(losers).mean() * 100
 
-    # High volume
-    features['volume'] = (df['volume'] > 30_000_000).astype(float).values
+                # Raw difference (positive = more common in winners)
+                raw_diff = winners_with - losers_with
 
-    # Ranking (inverted: rank 1 = 5, rank 5 = 1)
-    features['ranking'] = (6 - df['ranking']).values / 5
+                # Absolute difference for ranking importance
+                abs_diff = abs(raw_diff)
 
-    # Calculate correlations
-    correlations = {}
-    for name, values in features.items():
-        if len(np.unique(values)) > 1:
-            corr, _ = stats.pearsonr(values, returns)
-            # Use positive correlation (we want factors that predict higher returns)
-            correlations[name] = max(0, corr)
-        else:
-            correlations[name] = 0
+                all_factors[name] = {
+                    'category': category,
+                    'winners_pct': round(winners_with, 1),
+                    'losers_pct': round(losers_with, 1),
+                    'raw_difference': round(raw_diff, 1),
+                    'abs_difference': round(abs_diff, 1),
+                    'favors_winners': raw_diff > 0,
+                    'indicator': 'POSITIVE' if raw_diff > 0 else 'NEGATIVE'
+                }
+            except Exception:
+                pass
 
-    # Normalize to sum to 100
-    total = sum(correlations.values())
-    if total > 0:
-        weights = {name: round(corr / total * 100, 1) for name, corr in correlations.items()}
-    else:
-        # Fall back to defaults
-        weights = DEFAULT_WEIGHTS.copy()
+    # For each category, keep only the factor with the HIGHEST absolute difference
+    best_per_category = {}
+    for name, data in all_factors.items():
+        category = data['category']
+        if category not in best_per_category or data['abs_difference'] > best_per_category[category]['abs_difference']:
+            best_per_category[category] = {**data, 'name': name}
 
-    return weights
+    # Filter to significant factors (>5% difference)
+    significant_factors = {
+        v['name']: v for k, v in best_per_category.items()
+        if v['abs_difference'] >= 5
+    }
+
+    # Sort by absolute difference descending
+    sorted_factors = dict(sorted(
+        significant_factors.items(),
+        key=lambda x: x[1]['abs_difference'],
+        reverse=True
+    ))
+
+    # Build the formula from significant factors
+    formula_factors = {}
+    for name, data in sorted_factors.items():
+        formula_factors[name] = {
+            'weight_score': data['abs_difference'],
+            'condition': 'HAS' if data['favors_winners'] else 'NOT',
+            'category': data['category'],
+            'winners_pct': data['winners_pct'],
+            'losers_pct': data['losers_pct'],
+            'difference': data['raw_difference'],
+        }
+
+    # Normalize weights to sum to 100
+    total_score = sum(f['weight_score'] for f in formula_factors.values())
+
+    final_weights = {}
+    for name, data in formula_factors.items():
+        weight = round(data['weight_score'] / total_score * 100, 1) if total_score > 0 else 0
+        final_weights[name] = {
+            'weight': weight,
+            'condition': data['condition'],
+            'category': data['category'],
+            'description': f"{'Has' if data['condition'] == 'HAS' else 'Does NOT have'} {name.replace('_', ' ')}",
+            'winners_pct': data['winners_pct'],
+            'losers_pct': data['losers_pct'],
+            'difference': data['difference'],
+        }
+
+    return {
+        'formula': final_weights,
+        'all_factors_tested': all_factors,
+        'best_per_category': {k: v['name'] for k, v in best_per_category.items()},
+        'significant_factors_count': len(sorted_factors),
+        'total_factors_tested': len(all_factors),
+        'categories_count': len(best_per_category),
+        'thresholds': {
+            'top_25_pct_return': round(float(top_threshold), 1),
+            'bottom_25_pct_return': round(float(bottom_threshold), 1),
+            'winners_count': len(winners),
+            'losers_count': len(losers),
+            'min_difference_threshold': 5.0
+        }
+    }
 
 
 def evaluate_model(
