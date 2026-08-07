@@ -5,11 +5,12 @@ from datetime import timedelta
 from tqdm import tqdm
 from datetime import datetime
 import pytz  # Import for timezone handling
+import os
 import openai
 from pydantic import BaseModel, Field
 
 
-openai.api_key = ""
+openai.api_key = os.environ.get("OPENAI_API_KEY", "")
 
 class TicketResolution(BaseModel):
     
